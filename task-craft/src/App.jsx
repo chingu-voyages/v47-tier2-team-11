@@ -9,11 +9,18 @@ const App = () => {
     let getLocalData = JSON.parse(localStorage.getItem('userData'))
     // Fetch data from the imported JSON file if no local data is present
     getLocalData ? setData(getLocalData) : setData(jsonData);
+    console.log('Fetched Data:', data); 
   }, []);
 
   return (
     <>
       <Header />
+      {data && (
+      <div>
+        <h2>Fetched Data:</h2>
+        <pre>{JSON.stringify(data, null, 2)}</pre>
+      </div>
+    )}
     </>
   )
 }
