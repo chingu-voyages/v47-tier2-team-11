@@ -1,6 +1,7 @@
-// App.jsx
+
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
+import DateComponent from "./components/DateComponent";
 import Category from "./components/Category";
 import jsonData from "./assets/tasks.json";
 
@@ -8,6 +9,7 @@ const App = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
+    // Fetch data from the imported JSON file if no local data is present
     let getLocalData = JSON.parse(localStorage.getItem("userData"));
     getLocalData ? setData(getLocalData) : setData(jsonData);
   }, []);
@@ -15,6 +17,7 @@ const App = () => {
   return (
     <>
       <Header />
+      <DateComponent data={data} />
       <Category data={data} />
     </>
   );
