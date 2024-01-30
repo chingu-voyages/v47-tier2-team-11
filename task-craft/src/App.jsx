@@ -1,21 +1,23 @@
-import { useEffect, useState } from 'react'
-import Header  from './components/Header'
-import jsonData from './assets/tasks.json';
+// App.jsx
+import { useEffect, useState } from "react";
+import Header from "./components/Header";
+import Category from "./components/Category";
+import jsonData from "./assets/tasks.json";
 
 const App = () => {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    let getLocalData = JSON.parse(localStorage.getItem('userData'))
-    // Fetch data from the imported JSON file if no local data is present
+    let getLocalData = JSON.parse(localStorage.getItem("userData"));
     getLocalData ? setData(getLocalData) : setData(jsonData);
   }, []);
 
   return (
     <>
       <Header />
+      <Category data={data} />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
