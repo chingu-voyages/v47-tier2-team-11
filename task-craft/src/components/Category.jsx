@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import Activity from "./Activity";
+import Activity from "./Activity";
 import "./Category.css";
 const Category = ({ data }) => {
   const [categoryNames, setCategoryNames] = useState([]);
@@ -21,7 +21,7 @@ const Category = ({ data }) => {
         {categoryNames.map((name, index) => (
           <li key={index}>
             {name}
-            {/* <Activity categoryData={data[index]} /> */}
+            <Activity categoryData={data[index]} />
           </li>
         ))}
       </ul>
