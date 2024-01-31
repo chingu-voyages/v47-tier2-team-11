@@ -1,30 +1,38 @@
 import React, { useEffect, useState } from "react";
 import "./Activity.css";
 const Activity = ({ categoryData }) => {
-  const [activityNames, setActivityNames] = useState([]);
-
+  const [activityData, setActivityData] = useState([]);
   useEffect(() => {
     if (categoryData) {
-      const names = categoryData.activityTypes.map(
-        (activity) => activity.activityName
-      );
-      setActivityNames(names);
+      const activities = categoryData.activityTypes.map((activity) => {
+        return {
+          name: activity.activityName,
+          tasks: activity.Tasks.map((task) => task.taskName),
+        };
+      });
+      setActivityData(activities);
     }
   }, [categoryData]);
-
   if (!categoryData) {
     return <p>Please wait</p>;
   }
-
   return (
     <>
       <ul className="noBullets">
-        {activityNames.map((name, index) => (
-          <li key={index}>{name}</li>
+        {activityData.map((activity, index) => (
+          <li key={index}>
+
+            {activity.name}
+            <ul className="noBullets">
+
+              {activity.tasks.map((task, taskIndex) => (
+                <li key={taskIndex}>{task}</li>
+              ))}
+            </ul>
+          </li>
         ))}
       </ul>
     </>
   );
 };
-
 export default Activity;
