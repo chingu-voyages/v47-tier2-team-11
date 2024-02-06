@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Activity from "./Activity";
 import "./Category.css";
 const Category = ({ data }) => {
   const [categoryNames, setCategoryNames] = useState([]);
-
   useEffect(() => {
     if (data) {
       const names = data.map((item) => item.categoryName);
@@ -11,9 +9,7 @@ const Category = ({ data }) => {
     }
   }, [data]);
 
-  if (!data) {
-    return <p>Please wait</p>;
-  }
+
 
   return (
     <>
@@ -21,7 +17,6 @@ const Category = ({ data }) => {
         {categoryNames.map((name, index) => (
           <li key={index}>
             {name}
-            <Activity categoryData={data[index]} />
           </li>
         ))}
       </ul>

@@ -3,7 +3,16 @@
   flex-direction: column;
   align-items: center;
 }
-
+.current-day {
+  background-color: blue;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  margin: 0 auto;
+}
 .date-row {
   display: flex;
 }
@@ -13,4 +22,27 @@
   margin: 5px;
   padding: 10px;
   border: 1px solid #ddd;
+}
+.date-table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.date-table th,
+.date-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.date-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+.head{
+  display: flex;
+}
+.taskhead {
+margin-left: -100px;
 }
