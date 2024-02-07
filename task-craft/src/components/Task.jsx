@@ -1,12 +1,28 @@
-import React from "react";
-import "./Task.css";
-const Task = ({ tasks }) => {
+import React, { useEffect, useState } from "react";
+const Task = ({ activity, datesAndDays }) => {
+  const [tasks, setTasks] = useState([]);
+  useEffect(() => {
+    if (activity) {
+      setTasks(activity);
+    }
+  }, [activity]);
+
   return (
-    <ul className="noBullets">
-      {tasks.map((task, taskIndex) => (
-        <li key={taskIndex}>{task.taskName}</li>
+    <>
+      {tasks.map((item, index) => (
+        <tr>
+          <td key={index}>{item.taskName}</td>
+          {datesAndDays.map((day, dayIndex) => (
+            <td key={dayIndex}>
+              {item.days.includes(day.dayOfMonth.toString()) ||
+              item.days.includes(day.fullDayOfWeek.toLowerCase()) ? (
+                <input type="checkbox" checked={false} readOnly />
+              ) : null}
+            </td>
+          ))}
+        </tr>
       ))}
-    </ul>
+    </>
   );
 };
 
