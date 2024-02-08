@@ -56,7 +56,7 @@ const App = () => {
           </tr>
         </thead>
         <tbody>
-          <Category data={data} />
+          <Category data={data} datesAndDays={datesAndDays} />
         </tbody>
       </table>
     </>
