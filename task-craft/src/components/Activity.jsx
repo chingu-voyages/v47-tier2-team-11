@@ -1,35 +1,27 @@
 import React, { useEffect, useState } from "react";
-import Task from "./Task"; 
+import Task from "./Task";
 
-const Activity = ({ categoryData }) => {
-  const [activityData, setActivityData] = useState([]);
-
+const Activity = ({ categoryData, datesAndDays }) => {
+  const [activities, setActivities] = useState([]);
   useEffect(() => {
     if (categoryData) {
-      const activities = categoryData.activityTypes.map((activity) => {
-        return {
-          name: activity.activityName,
-          tasks: activity.Tasks,
-        };
-      });
-      setActivityData(activities);
+      const activity = categoryData.activityTypes.map((item) => item);
+      setActivities(activity);
     }
   }, [categoryData]);
 
-  if (!categoryData) {
-    return <p>Please wait</p>;
-  }
-
   return (
     <>
-      <ul className="noBullets">
-        {activityData.map((activity, index) => (
-          <li key={index}>
-            {activity.name}
-            <Task tasks={activity.tasks} />
-          </li>
-        ))}
-      </ul>
+      {activities.map((item, index) => (
+        <>
+          <tr>
+            <td key={index} style={{ fontWeight: "bold", color: "#4CB9E7" }}>
+              {item.activityName}
+            </td>
+          </tr>
+          <Task activity={item.Tasks} datesAndDays={datesAndDays} />
+        </>
+      ))}
     </>
   );
 };
