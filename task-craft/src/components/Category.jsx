@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Activity from "./Activity";
-import "./Category.css";
-const Category = ({ data }) => {
-  const [categoryNames, setCategoryNames] = useState([]);
+const Category = ({ data, datesAndDays }) => {
+  const [category, setCategory] = useState([]);
 
   useEffect(() => {
     if (data) {
-      const names = data.map((item) => item.categoryName);
-      setCategoryNames(names);
+      const names = data.map((item) => item);
+      setCategory(names);
     }
   }, [data]);
 
-  if (!data) {
-    return <p>Please wait</p>;
-  }
-
   return (
     <>
-      <ul className="noBullets">
-        {categoryNames.map((name, index) => (
-          <li key={index}>
-            {name}
-            <Activity categoryData={data[index]} />
-          </li>
-        ))}
-      </ul>
+      {category.map((item, index) => (
+        <>
+          <tr>
+            <td key={index} style={{ fontWeight: "bold", color: "#3559E0" }}>
+              {item.categoryName}
+            </td>
+          </tr>
+          <Activity categoryData={item} datesAndDays={datesAndDays} />
+        </>
+      ))}
     </>
   );
 };
