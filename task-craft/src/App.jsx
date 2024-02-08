@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import DateComponent from "./components/DateComponent";
 import Category from "./components/Category";
 import jsonData from "./assets/tasks.json";
-
+import "./App.css";
 const App = () => {
   const [data, setData] = useState(null);
   const [datesAndDays, setDatesAndDays] = useState([]);
