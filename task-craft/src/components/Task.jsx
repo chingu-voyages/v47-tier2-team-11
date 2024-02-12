@@ -10,17 +10,19 @@ const Task = ({ activity, datesAndDays }) => {
   return (
     <>
       {tasks.map((item, index) => (
-        <tr>
-          <td key={index}>{item.taskName}</td>
-          {datesAndDays.map((day, dayIndex) => (
-            <td key={dayIndex}>
-              {item.days.includes(day.dayOfMonth.toString()) ||
-              item.days.includes(day.fullDayOfWeek.toLowerCase()) ? (
-                <input type="checkbox" checked={false} readOnly />
-              ) : null}
-            </td>
-          ))}
-        </tr>
+        <React.Fragment key={`task-fragment-${index}`}>
+          <tr>
+            <td key={index}>{item.taskName}</td>
+            {datesAndDays.map((day, dayIndex) => (
+              <td key={dayIndex}>
+                {item.days.includes(day.dayOfMonth.toString()) ||
+                item.days.includes(day.fullDayOfWeek.toLowerCase()) ? (
+                  <input type="checkbox" checked={false} readOnly />
+                ) : null}
+              </td>
+            ))}
+          </tr>
+        </React.Fragment>
       ))}
     </>
   );
