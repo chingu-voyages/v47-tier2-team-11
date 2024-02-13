@@ -13,14 +13,14 @@ const Activity = ({ categoryData, datesAndDays }) => {
   return (
     <>
       {activities.map((item, index) => (
-        <>
+        <React.Fragment key={`activity-fragment-${index}`}>
           <tr>
             <td key={index} style={{ fontWeight: "bold", color: "#4CB9E7" }}>
               {item.activityName}
             </td>
           </tr>
           <Task activity={item.Tasks} datesAndDays={datesAndDays} />
-        </>
+        </React.Fragment>
       ))}
     </>
   );
