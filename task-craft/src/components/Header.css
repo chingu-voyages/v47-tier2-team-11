@@ -1,35 +1,27 @@
 .container{
     width: 1213px;
-    height: 190px;
+    height: 90px;
     display: flex;
     justify-content: space-around;
-    border: 1px solid ;
-}
-.head{
-    margin-top: 2em;
-    font-size: 30px;
-    color: 00473E;
+    border: 1px solid black ;
+    color: #F2F7F5;
 }
 .logo{
-    margin-top: 2em;
-    margin-left: -6em;
+    width: 50px;
+    height: 50px;
     border-radius: 250px;
-    height: 128px;
-    width: 128px;
+    padding: 20px;
 }
-.icon-add{
-    margin-top: 2em;
-    height: 100px;
-    width: 100px;
-    justify-content: space-around;
-    border-radius: 10px;
+.head{
+    font-size: 40px;
+    color: #00473E;
+    padding: -8em;
+
+    
+
 }
-.icon-reset{
-    height: 100px;
-    width: 100px;
-    justify-content: space-around;
-    border-radius: 10px;
-    margin-left:auto;
-    margin-left: 100px;
-    margin-right: -50px;
+.icon{
+    padding: 20px;
+    font-size: 50px;
+    color: #FAAE2B;
 }
