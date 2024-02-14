@@ -8,7 +8,7 @@ const Activity = ({ storedData, activityData, datesAndDays }) => {
     <>
       <React.Fragment key={activityData.id}>
         <tr>
-          <td colSpan="2" style={{ fontWeight: "bold" }}>
+          <td colSpan="31" style={{ backgroundColor: "#00473e", color: "#ffffff", fontWeight: "bold", padding: "3px 5px" }}>
             {activityData.activityName}
           </td>
         </tr>
