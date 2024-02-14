@@ -1,9 +1,10 @@
 import React from "react";
 import { useEffect, useState } from "react"
 import { nextMonday, nextTuesday, nextWednesday, nextThursday, nextFriday, nextSaturday, nextSunday, startOfDay, startOfMonth, lastDayOfMonth, addWeeks, isSameDay, addDays } from "date-fns";
-import "./Task.css"
+import TaskCard from "./TaskCard";
+import "./Task.css";
 
-const Task = ({ storedData, tasks, datesAndDays }) => {
+const Task = ({ storedData, tasks, datesAndDays}) => {
   const currentDate = new Date()
   const startDateOfMonth = startOfMonth(currentDate)
   const lastDateOfMonth = lastDayOfMonth(currentDate)
@@ -76,11 +77,21 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
         <td key={`${task.id}-${dayIndex}`}>
           {task.occurences ? task.occurences.map((occurence) => {
           return (isSameDay(occurence.date, date.date)) ? (
-            <input type="checkbox" checked={false} readOnly />
+              <TaskCard 
+                key={`${task.id}-${occurence.date}`} 
+                taskName={task.taskName} 
+                data={occurence}
+                type="occurence"
+                handleTaskStatusChange={handleRepetitionTaskStatusChange}/>
           ) : null
           }) : 
           (isSameDay(task.date, date.date) ? (
-            <input type="checkbox" checked={false} readOnly />
+              <TaskCard 
+                key={`${task.id}-${date.date}`} 
+                taskName={task.taskName} 
+                data={task}
+                type="task"
+                handleTaskStatusChange={handleNotRepetitionTaskStatusChange}/>
           ) : null)}
         </td>
       ))}
