@@ -15,7 +15,7 @@ const Category = ({ data, datesAndDays }) => {
       {categories.map((category) => (
         <React.Fragment key={category.id}>
           <tr>
-            <td style={{ fontWeight: "bold" }}>
+            <td colSpan="31" style={{ backgroundColor: "#00473e", border: "1px solid #ffffff", color: "#ffffff", fontWeight: "bold", padding: "5px" }}>
               {category.categoryName}
             </td>
           </tr>

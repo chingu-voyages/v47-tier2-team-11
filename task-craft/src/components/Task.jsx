@@ -1,9 +1,10 @@
 import React from "react";
 import { useEffect, useState } from "react"
 import { nextMonday, nextTuesday, nextWednesday, nextThursday, nextFriday, nextSaturday, nextSunday, startOfDay, startOfMonth, lastDayOfMonth, addWeeks, isSameDay, addDays } from "date-fns";
-import "./Task.css"
+import TaskCard from "./TaskCard";
+import "./Task.css";
 
-const Task = ({ storedData, tasks, datesAndDays }) => {
+const Task = ({ storedData, tasks, datesAndDays}) => {
   const currentDate = new Date()
   const startDateOfMonth = startOfMonth(currentDate)
   const lastDateOfMonth = lastDayOfMonth(currentDate)
@@ -36,6 +37,7 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
         break;
       default:
         const nextDayFunction = nextDayFunctions[occurrenceDay.toLowerCase()];
+
         for(let i = startDate; i < lastDate; i = addWeeks(i, 1)) {
           let nextTaskDate = startOfDay(nextDayFunction(i))
           occurrences.push({date: nextTaskDate,
@@ -46,7 +48,6 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
 
         break;
     }
-
     return occurrences
   }
 
@@ -59,7 +60,6 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
     saturday: nextSaturday,
     sunday: nextSunday
   };
-  
   
 
   const handleRepetitionTaskStatusChange = (occurrence) => {
@@ -88,11 +88,20 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
         <td key={`${task.id}-${dayIndex}`}>
           {task.occurrences ? task.occurrences.map((occurrence) => {
           return (isSameDay(occurrence.date, date.date)) ? (
-            <input type="checkbox" checked={false} readOnly />
+              <TaskCard 
+                key={`${task.id}-${occurrence.date}`} 
+                taskName={task.taskName} 
+                data={occurrence}
+                handleTaskStatusChange={handleRepetitionTaskStatusChange}/>
+
           ) : null
           }) : 
           (isSameDay(task.date, date.date) ? (
-            <input type="checkbox" checked={false} readOnly />
+              <TaskCard 
+                key={`${task.id}-${date.date}`} 
+                taskName={task.taskName} 
+                data={task}
+                handleTaskStatusChange={handleNotRepetitionTaskStatusChange}/>
           ) : null)}
         </td>
       ))}
