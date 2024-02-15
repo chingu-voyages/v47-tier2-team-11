@@ -1,28 +1,32 @@
 import React, { useEffect, useState } from "react";
 import Activity from "./Activity";
-const Category = ({ data, datesAndDays }) => {
-  const [category, setCategory] = useState([]);
 
-  useEffect(() => {
+const Category = ({ data, datesAndDays }) => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {    
     if (data) {
-      const names = data.map((item) => item);
-      setCategory(names);
+      setCategories(data);
     }
   }, [data]);
 
   return (
     <>
-      {category.map((item, index) => (
-        <React.Fragment key={`category-fragment-${index}`}>
+      {categories.map((category) => (
+        <React.Fragment key={category.id}>
           <tr>
-            <td
-              key={`category-${index}`}
-              style={{ fontWeight: "bold", color: "#3559E0" }}
-            >
-              {item.categoryName}
+            <td style={{ fontWeight: "bold" }}>
+              {category.categoryName}
             </td>
           </tr>
-          <Activity categoryData={item} datesAndDays={datesAndDays} />
+          {category.activityTypes.map((activity) => (
+            <Activity
+              key={activity.id}
+              storedData={data}
+              activityData={activity}
+              datesAndDays={datesAndDays}
+          />     
+          ))}
         </React.Fragment>
       ))}
     </>

@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import DateComponent from "./components/DateComponent";
 import Category from "./components/Category";
-import jsonData from "./assets/tasks.json";
+import jsonData from "./assets/taskData.json";
 import "./App.css";
+
 const App = () => {
   const [data, setData] = useState(null);
   const [datesAndDays, setDatesAndDays] = useState([]);
@@ -36,12 +37,20 @@ const App = () => {
     setDatesAndDays(datesAndDays);
   }
 
+  // Function to fetch data and save to localStorage
+  const fetchDataAndSaveToLocalStorage = () => {
+    const getLocalData = JSON.parse(localStorage.getItem("taskCraftData"));
+    setData(getLocalData ? getLocalData : jsonData);
+    // If local data is not available, save jsonData to localStorage
+    !getLocalData && localStorage.setItem("taskCraftData", JSON.stringify(jsonData));
+    //console.log(localStorage.getItem("userTaskData"))
+  };
+
   useEffect(() => {
-    // Fetch data from the imported JSON file if no local data is present
-    let getLocalData = JSON.parse(localStorage.getItem("userData"));
-    getLocalData ? setData(getLocalData) : setData(jsonData);
+    localStorage.removeItem("taskCraftData")
+    fetchDataAndSaveToLocalStorage()
     generateDateAndDays();
-  }, []);
+  }, [data]);
 
   return (
     <>
