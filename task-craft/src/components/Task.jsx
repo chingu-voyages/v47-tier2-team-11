@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react"
 import { nextMonday, nextTuesday, nextWednesday, nextThursday, nextFriday, nextSaturday, nextSunday, startOfDay, startOfMonth, lastDayOfMonth, addWeeks, isSameDay, addDays } from "date-fns";
 import TaskCard from "./TaskCard";
+import { saveEditedPartToLocalStorage } from "./TaskHandler";
 import "./Task.css";
 
 const Task = ({ storedData, tasks, datesAndDays}) => {
