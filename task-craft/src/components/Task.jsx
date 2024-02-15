@@ -65,7 +65,7 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
   const handleRepetitionTaskStatusChange = (occurrence) => {
     const updatedTasks = taskState.map(task => ({
       ...task,
-      occurrences: task.occurrences.map(o => o.date === occurrence.date ? { ...o, status: true } : o)
+      occurrences: task.occurrences.map(o => o.date === occurrence.date ? { ...o, status: !o.status } : o)
     }));
     setTaskState(updatedTasks);
   }
