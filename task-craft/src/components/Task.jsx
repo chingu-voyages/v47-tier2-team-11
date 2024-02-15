@@ -36,7 +36,7 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
       case "monthly":
         break;
       default:
-        const nextDayFunction = eval(`next${occurenceDay.charAt(0).toUpperCase() + occurenceDay.slice(1).toLowerCase()}`);
+        const nextDayFunction = nextDayFunctions[occurenceDay.toLowerCase()];
         for(let i = startDate; i < lastDate; i = addWeeks(i, 1)) {
           let nextTaskDate = startOfDay(nextDayFunction(i))
           occurences.push({date: nextTaskDate,
@@ -50,6 +50,16 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
 
     return occurences
   }
+
+  const nextDayFunctions = {
+    monday: nextMonday,
+    tuesday: nextTuesday,
+    wednesday: nextWednesday,
+    thursday: nextThursday,
+    friday: nextFriday,
+    saturday: nextSaturday,
+    sunday: nextSunday
+  };
 
   const handleRepetitionTaskStatusChange = (occurence) => {
     const updatedTasks = taskState.map(task => ({
