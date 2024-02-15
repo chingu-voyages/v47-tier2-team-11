@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react"
-import { nextMonday, nextTuesday, nextWednesday, nextThursday, nextFriday, nextSaturday, nextSunday, startOfDay, startOfMonth, lastDayOfMonth, addWeeks, isSameDay, addDays } from "date-fns";
+import { nextMonday, nextTuesday, nextWednesday, nextThursday, nextFriday, nextSaturday, nextSunday, startOfDay, startOfMonth, lastDayOfMonth, addWeeks, isSameDay, addDays, isBefore } from "date-fns";
 import TaskCard from "./TaskCard";
 import { saveEditedPartToLocalStorage } from "./TaskHandler";
 import "./Task.css";
@@ -14,7 +14,9 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
   useEffect(() => {
     if (tasks) {  
       tasks.forEach((task) => {
-        task.repetition ? task["occurrences"] = setOccurrences(task.day) : null
+        task.repetition ? 
+          task["occurrences"] = setOccurrences(task.day) : 
+          (task.status = (isBefore(task.date, currentDate)) ? true : false)
       })
       setTaskState(tasks)
     }
@@ -27,14 +29,12 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
     let occurrences = []
     switch(occurrenceDay) {
       case "daily":
-        for(let i = startDate; i <= lastDate; i = addDays(i, 1)) {          
+        for(let i = startDate; i <= lastDate; i = addDays(i, 1)) {   
           occurrences.push({date: i,
-            status: false})
+            status: (isBefore(i, currentDate)) ?  true : false})
           startDate = addDays(i, 1)         
           date = addDays(date, 1)
         }
-        break;
-      case "monthly":
         break;
       default:
         const nextDayFunction = nextDayFunctions[occurrenceDay.toLowerCase()];
@@ -42,7 +42,7 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
         for(let i = startDate; i < lastDate; i = addWeeks(i, 1)) {
           let nextTaskDate = startOfDay(nextDayFunction(i))
           occurrences.push({date: nextTaskDate,
-            status: false})
+            status: (isBefore(nextTaskDate, currentDate)) ?  true : false})
           startDate = nextTaskDate
           date = addWeeks(date, 1)
         }
@@ -66,7 +66,7 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
   const handleRepetitionTaskStatusChange = (occurrence) => {
     const updatedTasks = taskState.map(task => ({
       ...task,
-      occurrences: task.occurrences.map(o => o.date === occurrence.date ? { ...o, status: true } : o)
+      occurrences: task.occurrences.map(o => o.date === occurrence.date ? { ...o, status: !o.status } : o)
     }));
     setTaskState(updatedTasks);
   }
