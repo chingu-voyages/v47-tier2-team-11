@@ -1,27 +1,23 @@
-import React, { useEffect, useState } from "react";
+// ActivityTest.jsx
+import React from "react";
 import Task from "./Task";
 
-const Activity = ({ categoryData, datesAndDays }) => {
-  const [activities, setActivities] = useState([]);
-  useEffect(() => {
-    if (categoryData) {
-      const activity = categoryData.activityTypes.map((item) => item);
-      setActivities(activity);
-    }
-  }, [categoryData]);
+const Activity = ({ storedData, activityData, datesAndDays }) => {
 
   return (
     <>
-      {activities.map((item, index) => (
-        <React.Fragment key={`activity-fragment-${index}`}>
-          <tr>
-            <td key={index} style={{ fontWeight: "bold", color: "#4CB9E7" }}>
-              {item.activityName}
-            </td>
-          </tr>
-          <Task activity={item.Tasks} datesAndDays={datesAndDays} />
-        </React.Fragment>
-      ))}
+      <React.Fragment key={activityData.id}>
+        <tr>
+          <td colSpan="2" style={{ fontWeight: "bold" }}>
+            {activityData.activityName}
+          </td>
+        </tr>
+        <Task
+          storedData={storedData}
+          tasks={activityData.tasks}
+          datesAndDays={datesAndDays}
+        />
+      </React.Fragment>
     </>
   );
 };
