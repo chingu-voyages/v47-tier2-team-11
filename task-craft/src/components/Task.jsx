@@ -48,7 +48,6 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
 
         break;
     }
-
     return occurrences
   }
 
@@ -93,7 +92,6 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
                 key={`${task.id}-${occurrence.date}`} 
                 taskName={task.taskName} 
                 data={occurrence}
-                type="occurrence"
                 handleTaskStatusChange={handleRepetitionTaskStatusChange}/>
 
           ) : null
@@ -103,7 +101,6 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
                 key={`${task.id}-${date.date}`} 
                 taskName={task.taskName} 
                 data={task}
-                type="task"
                 handleTaskStatusChange={handleNotRepetitionTaskStatusChange}/>
           ) : null)}
         </td>
