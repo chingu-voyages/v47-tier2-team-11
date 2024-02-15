@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react"
-import { nextMonday, nextTuesday, nextWednesday, nextThursday, nextFriday, nextSaturday, nextSunday, startOfDay, startOfMonth, lastDayOfMonth, addWeeks, isSameDay, addDays, isBefore } from "date-fns";
+import { nextMonday, nextTuesday, nextWednesday, nextThursday, nextFriday, nextSaturday, nextSunday, startOfDay, startOfMonth, lastDayOfMonth, addWeeks, isSameDay, addDays } from "date-fns";
 import TaskCard from "./TaskCard";
 import "./Task.css";
 
@@ -13,9 +13,7 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
   useEffect(() => {
     if (tasks) {  
       tasks.forEach((task) => {
-        task.repetition ? 
-          task["occurrences"] = setOccurrences(task.day) : 
-          (task.status = (isBefore(task.date, currentDate)) ? true : false)
+        task.repetition ? task["occurrences"] = setOccurrences(task.day) : null
       })
       setTaskState(tasks)
     }
@@ -30,7 +28,7 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
       case "daily":
         for(let i = startDate; i <= lastDate; i = addDays(i, 1)) {   
           occurrences.push({date: i,
-            status: (isBefore(i, currentDate)) ?  true : false})
+            status: false})
           startDate = addDays(i, 1)         
           date = addDays(date, 1)
         }
@@ -41,7 +39,7 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
         for(let i = startDate; i < lastDate; i = addWeeks(i, 1)) {
           let nextTaskDate = startOfDay(nextDayFunction(i))
           occurrences.push({date: nextTaskDate,
-            status: (isBefore(nextTaskDate, currentDate)) ?  true : false})
+            status: false})
           startDate = nextTaskDate
           date = addWeeks(date, 1)
         }
@@ -73,7 +71,7 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
   const handleNotRepetitionTaskStatusChange = (task) => {
     const updatedTasks = taskState.map(storedTask =>
         storedTask.id === task.id
-            ? { ...storedTask, status: true }
+            ? { ...storedTask, status: !task.status }
             : storedTask
     );
     setTaskState(updatedTasks);
