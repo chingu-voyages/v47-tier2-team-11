@@ -3,7 +3,7 @@ import "./TaskCard.css"
 const TaskCard = ({taskName, data, handleTaskStatusChange}) => {
     return (
         <>
-        <div className="card">
+        <div className="card" style={{ backgroundColor: data.status === true ? "#aabebc" : "#faae2b" }}>
             <p id="card-taskName">{taskName}</p>
             <button
                 className="card-button"
