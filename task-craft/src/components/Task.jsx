@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react"
 import { nextMonday, nextTuesday, nextWednesday, nextThursday, nextFriday, nextSaturday, nextSunday, startOfDay, startOfMonth, lastDayOfMonth, addWeeks, isSameDay, addDays } from "date-fns";
 import TaskCard from "./TaskCard";
+import CommentModal from "./CommentModal";
 import "./Task.css";
 
 const Task = ({ storedData, tasks, datesAndDays}) => {
@@ -9,6 +10,8 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
   const startDateOfMonth = startOfMonth(currentDate)
   const lastDateOfMonth = lastDayOfMonth(currentDate)
   const [taskState, setTaskState] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null)
 
   useEffect(() => {
     if (tasks) {  
@@ -61,6 +64,12 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
   
 
   const handleRepetitionTaskStatusChange = (occurrence) => {
+    if(occurrence.status === false) {
+      occurrence.comment = ""
+      setSelectedTask(occurrence)
+      setShowModal(true)
+    } 
+
     const updatedTasks = taskState.map(task => ({
       ...task,
       occurrences: task.occurrences.map(o => o.date === occurrence.date ? { ...o, status: !o.status } : o)
@@ -69,6 +78,11 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
   }
 
   const handleNotRepetitionTaskStatusChange = (task) => {
+    if(task.status === false) {
+      task.comment = ""
+      setSelectedTask(task)
+      setShowModal(true)
+    } 
     const updatedTasks = taskState.map(storedTask =>
         storedTask.id === task.id
             ? { ...storedTask, status: !task.status }
@@ -76,6 +90,21 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
     );
     setTaskState(updatedTasks);
   };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleSaveComment = (task) => {
+    if (task && task.comment !== "") { // Only set comment if it exists
+        const updatedTasks = taskState.map(task => ({
+            ...task,
+            occurrences: task.occurrences.map(o => o.date === task.date ? { ...o, comment: task.comment } : o)
+        }));
+        setTaskState(updatedTasks);
+    }
+    setShowModal(false);
+  }
 
   return (
     <>
@@ -105,6 +134,14 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
       ))}
   </tr>
   ))}
+  {showModal &&
+    <CommentModal
+       show={showModal}
+       selectedTask = {selectedTask}
+       handleCloseModal={handleCloseModal}
+       handleSaveComment={handleSaveComment}
+    />
+  }
   </>
   )
 }
