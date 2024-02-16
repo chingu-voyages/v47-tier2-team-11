@@ -12,6 +12,16 @@ th {
 /* Delete button styles */
 .delete-button {
   background-color: red;
+}
+
+/* Edit button styles */
+.edit-button {
+  background-color: #aabebc;
+}
+
+/* Delete and edit button styles */
+.delete-button,
+.edit-button {
   border: none;
   color: #ffffff;
   padding: 7px;
@@ -21,12 +31,12 @@ th {
   margin: 2px 4px;
   border-radius: 50%;
 }
-
-.delete-button:hover {
-  animation: shake3856 0.3s linear infinite both;
+.delete-button:hover,
+.edit-button:hover {
+  animation: shakeButton 0.3s linear infinite both;
 }
 
-@keyframes shake3856 {
+@keyframes shakeButton {
   0% {
     -webkit-transform: translate(0);
     transform: translate(0);
