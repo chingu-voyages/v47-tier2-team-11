@@ -16,6 +16,22 @@ const Category = ({ data, datesAndDays }) => {
     );
     setCategories(updatedCategories);
   };
+
+  const handleActivityDelete = (activity) => {
+    const updatedCategories = categories.map((storedCategory) => {
+      const updatedActivities = storedCategory.activityTypes.filter(
+        (storedActivity) => storedActivity.id !== activity.id
+      );
+
+      return {
+        ...storedCategory,
+        activityTypes: updatedActivities,
+      };
+    });
+
+    setCategories(updatedCategories);
+  };
+
   return (
     <>
       {categories.map((category) => (
@@ -46,6 +62,7 @@ const Category = ({ data, datesAndDays }) => {
               storedData={data}
               activityData={activity}
               datesAndDays={datesAndDays}
+              handleActivityDelete={handleActivityDelete}
             />
           ))}
         </React.Fragment>
