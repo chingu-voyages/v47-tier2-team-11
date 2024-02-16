@@ -48,7 +48,7 @@ const Category = ({ data, datesAndDays }) => {
       category.categoryName
     );
 
-    if (newName !== null) {
+    if (newName !== "") {
       const updatedCategories = categories.map((storedCategory) =>
         storedCategory.id === category.id
           ? { ...storedCategory, categoryName: newName }
@@ -65,7 +65,7 @@ const Category = ({ data, datesAndDays }) => {
       activity.activityName
     );
 
-    if (newName !== null) {
+    if (newName !== "") {
       const updatedCategories = categories.map((storedCategory) => {
         const updatedActivities = storedCategory.activityTypes.map(
           (storedActivity) =>
