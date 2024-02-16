@@ -4,19 +4,40 @@ import Activity from "./Activity";
 const Category = ({ data, datesAndDays }) => {
   const [categories, setCategories] = useState([]);
 
-  useEffect(() => {    
+  useEffect(() => {
     if (data) {
       setCategories(data);
     }
   }, [data]);
 
+  const handleCategoryDelete = (category) => {
+    const updatedCategories = categories.filter(
+      (storedCategory) => storedCategory.id !== category.id
+    );
+    setCategories(updatedCategories);
+  };
   return (
     <>
       {categories.map((category) => (
         <React.Fragment key={category.id}>
           <tr>
-            <td colSpan="31" style={{ backgroundColor: "#00473e", border: "1px solid #ffffff", color: "#ffffff", fontWeight: "bold", padding: "5px" }}>
+            <td
+              colSpan="31"
+              style={{
+                backgroundColor: "#00473e",
+                border: "1px solid #ffffff",
+                color: "#ffffff",
+                fontWeight: "bold",
+                padding: "5px",
+              }}
+            >
               {category.categoryName}
+              <button
+                className="category-delete-button"
+                onClick={() => handleCategoryDelete(category)}
+              >
+                <i className="fas fa-trash" aria-hidden="true"></i>
+              </button>
             </td>
           </tr>
           {category.activityTypes.map((activity) => (
@@ -25,7 +46,7 @@ const Category = ({ data, datesAndDays }) => {
               storedData={data}
               activityData={activity}
               datesAndDays={datesAndDays}
-          />     
+            />
           ))}
         </React.Fragment>
       ))}
