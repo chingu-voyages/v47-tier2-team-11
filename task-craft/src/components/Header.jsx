@@ -26,7 +26,7 @@ const basicStyles = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    backgroundColor:''
+    backgroundColor:'white'
 
   },
 };
