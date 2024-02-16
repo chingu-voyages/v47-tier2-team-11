@@ -24,12 +24,14 @@ const Activity = ({
             {activityData.activityName}
             <button
               className="edit-button"
+              title="Edit Activity"
               onClick={() => handleActivityEdit(activityData)}
             >
               <i class="far fa-edit"></i>
             </button>
             <button
               className="delete-button"
+              title="Delete Activity"
               onClick={() => handleActivityDelete(activityData)}
             >
               <i className="fas fa-trash" aria-hidden="true"></i>

@@ -112,6 +112,7 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
               {task.taskName}
               <button
                 className="delete-button"
+                title="Delete Task"
                 onClick={() => handleTaskDelete(task)}
               >
                 <i className="fas fa-trash" aria-hidden="true"></i>

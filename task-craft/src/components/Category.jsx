@@ -102,12 +102,14 @@ const Category = ({ data, datesAndDays }) => {
               {category.categoryName}
               <button
                 className="edit-button"
+                title="Edit Category"
                 onClick={() => handleCategoryEdit(category)}
               >
                 <i class="far fa-edit"></i>
               </button>
               <button
                 className="delete-button"
+                title="Delete Category"
                 onClick={() => handleCategoryDelete(category)}
               >
                 <i className="fas fa-trash" aria-hidden="true"></i>
