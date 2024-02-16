@@ -26,13 +26,13 @@ const basicStyles = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    backgroundColor:'white'
+    backgroundColor:''
 
   },
 };
 
 const Header = () => {
-  const [addtaskForm, setaddtaskForm] = useState(true);
+  const [addtaskForm, setaddtaskForm] = useState(false);
   const [category, setCategory] = useState("");
   const [activity, setActivity] = useState("");
   const [taskName, setTaskName] = useState("");
