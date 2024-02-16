@@ -99,7 +99,7 @@ const Header = () => {
           style={basicStyles}
         >
           <div className="modal-content" style={{ maxHeight: '100%' }}>
-            <button className="buton" onClick={closeAddtaskForm}>
+            <button className="buton2" onClick={closeAddtaskForm}>
               <FontAwesomeIcon icon={faXmark} />
             </button>
             <h2 style={{color:'#00473e'}}>Add Task</h2>

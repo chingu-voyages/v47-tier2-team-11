@@ -39,6 +39,12 @@
   margin-right: -27em;
 
 }
+.buton2{
+  border: none;
+  cursor: pointer;
+  background-color: #fffffe;
+
+}
 .modal-content {
     display: flex;
     flex-direction: column;
