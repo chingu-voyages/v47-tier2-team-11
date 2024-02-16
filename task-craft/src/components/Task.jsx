@@ -1,9 +1,10 @@
 import React from "react";
 import { useEffect, useState } from "react"
 import { nextMonday, nextTuesday, nextWednesday, nextThursday, nextFriday, nextSaturday, nextSunday, startOfDay, startOfMonth, lastDayOfMonth, addWeeks, isSameDay, addDays } from "date-fns";
-import "./Task.css"
+import TaskCard from "./TaskCard";
+import "./Task.css";
 
-const Task = ({ storedData, tasks, datesAndDays }) => {
+const Task = ({ storedData, tasks, datesAndDays}) => {
   const currentDate = new Date()
   const startDateOfMonth = startOfMonth(currentDate)
   const lastDateOfMonth = lastDayOfMonth(currentDate)
@@ -12,21 +13,21 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
   useEffect(() => {
     if (tasks) {  
       tasks.forEach((task) => {
-        task.repetition ? task["occurences"] = setOccurences(task.day) : null
+        task.repetition ? task["occurrences"] = setOccurrences(task.day) : null
       })
       setTaskState(tasks)
     }
   }, [tasks]);
 
-  const setOccurences = (occurenceDay) => {
+  const setOccurrences = (occurrenceDay) => {
     let date = currentDate
     let startDate = startDateOfMonth
     let lastDate = lastDateOfMonth
-    let occurences = []
-    switch(occurenceDay) {
+    let occurrences = []
+    switch(occurrenceDay) {
       case "daily":
         for(let i = startDate; i <= lastDate; i = addDays(i, 1)) {          
-          occurences.push({date: i,
+          occurrences.push({date: i,
             status: false})
           startDate = addDays(i, 1)         
           date = addDays(date, 1)
@@ -35,10 +36,11 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
       case "monthly":
         break;
       default:
-        const nextDayFunction = nextDayFunctions[occurenceDay.toLowerCase()];
+        const nextDayFunction = nextDayFunctions[occurrenceDay.toLowerCase()];
+
         for(let i = startDate; i < lastDate; i = addWeeks(i, 1)) {
           let nextTaskDate = startOfDay(nextDayFunction(i))
-          occurences.push({date: nextTaskDate,
+          occurrences.push({date: nextTaskDate,
             status: false})
           startDate = nextTaskDate
           date = addWeeks(date, 1)
@@ -46,8 +48,7 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
 
         break;
     }
-
-    return occurences
+    return occurrences
   }
 
   const nextDayFunctions = {
@@ -60,12 +61,11 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
     sunday: nextSunday
   };
   
-  
 
-  const handleRepetitionTaskStatusChange = (occurence) => {
+  const handleRepetitionTaskStatusChange = (occurrence) => {
     const updatedTasks = taskState.map(task => ({
       ...task,
-      occurences: task.occurences.map(o => o.date === occurence.date ? { ...o, status: true } : o)
+      occurrences: task.occurrences.map(o => o.date === occurrence.date ? { ...o, status: true } : o)
     }));
     setTaskState(updatedTasks);
   }
@@ -86,13 +86,22 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
     <td>{task.taskName}</td>     
       {datesAndDays.map((date, dayIndex) => (
         <td key={`${task.id}-${dayIndex}`}>
-          {task.occurences ? task.occurences.map((occurence) => {
-          return (isSameDay(occurence.date, date.date)) ? (
-            <input type="checkbox" checked={false} readOnly />
+          {task.occurrences ? task.occurrences.map((occurrence) => {
+          return (isSameDay(occurrence.date, date.date)) ? (
+              <TaskCard 
+                key={`${task.id}-${occurrence.date}`} 
+                taskName={task.taskName} 
+                data={occurrence}
+                handleTaskStatusChange={handleRepetitionTaskStatusChange}/>
+
           ) : null
           }) : 
           (isSameDay(task.date, date.date) ? (
-            <input type="checkbox" checked={false} readOnly />
+              <TaskCard 
+                key={`${task.id}-${date.date}`} 
+                taskName={task.taskName} 
+                data={task}
+                handleTaskStatusChange={handleNotRepetitionTaskStatusChange}/>
           ) : null)}
         </td>
       ))}
