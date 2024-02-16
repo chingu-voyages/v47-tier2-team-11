@@ -11,7 +11,9 @@ const Header = () => {
       <div className="container">
         <img className="logo" src={logo} />
         <h1 className="head">Task Craft</h1>
-        <FontAwesomeIcon className="icon" icon={faPlus} />
+        <button className="buton">
+          <FontAwesomeIcon className="icon" icon={faPlus} />
+        </button>
         <FontAwesomeIcon className="icon" icon={faArrowsRotate} />
       </div>
     </>

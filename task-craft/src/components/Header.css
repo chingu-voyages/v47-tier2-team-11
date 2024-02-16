@@ -25,3 +25,8 @@
     font-size: 50px;
     color: #FAAE2B;
 }
+.buton{
+    border: none;
+    cursor: pointer;
+    background-color: #fffffe;
+}
