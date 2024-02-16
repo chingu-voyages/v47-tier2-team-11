@@ -1,3 +1,4 @@
+/* Table styles */
 table,
 th,
 td {
@@ -6,4 +7,53 @@ td {
 }
 th {
   color: #0f2167;
+}
+
+/* Delete button styles */
+.delete-button {
+  background-color: red;
+  border: none;
+  color: #ffffff;
+  padding: 7px;
+  text-align: center;
+  display: inline-flex;
+  font-size: 10px;
+  margin: 2px 4px;
+  border-radius: 50%;
+}
+
+.delete-button:hover {
+  animation: shake3856 0.3s linear infinite both;
+}
+
+@keyframes shake3856 {
+  0% {
+    -webkit-transform: translate(0);
+    transform: translate(0);
+  }
+
+  20% {
+    -webkit-transform: translate(-2px, 2px);
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    -webkit-transform: translate(-2px, -2px);
+    transform: translate(-2px, -2px);
+  }
+
+  60% {
+    -webkit-transform: translate(2px, 2px);
+    transform: translate(2px, 2px);
+  }
+
+  80% {
+    -webkit-transform: translate(2px, -2px);
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    -webkit-transform: translate(0);
+    transform: translate(0);
+  }
 }

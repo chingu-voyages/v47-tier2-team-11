@@ -111,7 +111,7 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
             <td>
               {task.taskName}
               <button
-                className="task-delete-button"
+                className="delete-button"
                 onClick={() => handleTaskDelete(task)}
               >
                 <i className="fas fa-trash" aria-hidden="true"></i>

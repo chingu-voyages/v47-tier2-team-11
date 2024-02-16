@@ -22,7 +22,7 @@ const Activity = ({
           >
             {activityData.activityName}
             <button
-              className="category-delete-button"
+              className="delete-button"
               onClick={() => handleActivityDelete(activityData)}
             >
               <i className="fas fa-trash" aria-hidden="true"></i>

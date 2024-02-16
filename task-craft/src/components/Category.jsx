@@ -59,7 +59,7 @@ const Category = ({ data, datesAndDays }) => {
             >
               {category.categoryName}
               <button
-                className="category-delete-button"
+                className="delete-button"
                 onClick={() => handleCategoryDelete(category)}
               >
                 <i className="fas fa-trash" aria-hidden="true"></i>
