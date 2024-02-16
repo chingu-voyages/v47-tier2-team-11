@@ -1,56 +1,71 @@
 import React from "react";
-import { useEffect, useState } from "react"
-import { nextMonday, nextTuesday, nextWednesday, nextThursday, nextFriday, nextSaturday, nextSunday, startOfDay, startOfMonth, lastDayOfMonth, addWeeks, isSameDay, addDays, isBefore } from "date-fns";
+import { useEffect, useState } from "react";
+import {
+  nextMonday,
+  nextTuesday,
+  nextWednesday,
+  nextThursday,
+  nextFriday,
+  nextSaturday,
+  nextSunday,
+  startOfDay,
+  startOfMonth,
+  lastDayOfMonth,
+  addWeeks,
+  isSameDay,
+  addDays,
+} from "date-fns";
 import TaskCard from "./TaskCard";
 import { saveEditedPartToLocalStorage } from "./TaskHandler";
+import CommentModal from "./CommentModal";
 import "./Task.css";
 
-const Task = ({ storedData, tasks, datesAndDays}) => {
-  const currentDate = new Date()
-  const startDateOfMonth = startOfMonth(currentDate)
-  const lastDateOfMonth = lastDayOfMonth(currentDate)
+const Task = ({ storedData, tasks, datesAndDays }) => {
+  const currentDate = new Date();
+  const startDateOfMonth = startOfMonth(currentDate);
+  const lastDateOfMonth = lastDayOfMonth(currentDate);
   const [taskState, setTaskState] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null)
 
   useEffect(() => {
-    if (tasks) {  
+    if (tasks) {
       tasks.forEach((task) => {
-        task.repetition ? 
-          task["occurrences"] = setOccurrences(task.day) : 
-          (task.status = (isBefore(task.date, currentDate)) ? true : false)
-      })
-      setTaskState(tasks)
+        task.repetition
+          ? (task["occurrences"] = setOccurrences(task.day))
+          : null;
+      });
+      setTaskState(tasks);
     }
   }, [tasks]);
 
   const setOccurrences = (occurrenceDay) => {
-    let date = currentDate
-    let startDate = startDateOfMonth
-    let lastDate = lastDateOfMonth
-    let occurrences = []
-    switch(occurrenceDay) {
+    let date = currentDate;
+    let startDate = startDateOfMonth;
+    let lastDate = lastDateOfMonth;
+    let occurrences = [];
+    switch (occurrenceDay) {
       case "daily":
-        for(let i = startDate; i <= lastDate; i = addDays(i, 1)) {   
-          occurrences.push({date: i,
-            status: (isBefore(i, currentDate)) ?  true : false})
-          startDate = addDays(i, 1)         
-          date = addDays(date, 1)
+        for (let i = startDate; i <= lastDate; i = addDays(i, 1)) {
+          occurrences.push({ date: i, status: false });
+          startDate = addDays(i, 1);
+          date = addDays(date, 1);
         }
         break;
       default:
         const nextDayFunction = nextDayFunctions[occurrenceDay.toLowerCase()];
 
-        for(let i = startDate; i < lastDate; i = addWeeks(i, 1)) {
-          let nextTaskDate = startOfDay(nextDayFunction(i))
-          occurrences.push({date: nextTaskDate,
-            status: (isBefore(nextTaskDate, currentDate)) ?  true : false})
-          startDate = nextTaskDate
-          date = addWeeks(date, 1)
+        for (let i = startDate; i < lastDate; i = addWeeks(i, 1)) {
+          let nextTaskDate = startOfDay(nextDayFunction(i));
+          occurrences.push({ date: nextTaskDate, status: false });
+          startDate = nextTaskDate;
+          date = addWeeks(date, 1);
         }
 
         break;
     }
-    return occurrences
-  }
+    return occurrences;
+  };
 
   const nextDayFunctions = {
     monday: nextMonday,
@@ -59,57 +74,120 @@ const Task = ({ storedData, tasks, datesAndDays}) => {
     thursday: nextThursday,
     friday: nextFriday,
     saturday: nextSaturday,
-    sunday: nextSunday
+    sunday: nextSunday,
   };
-  
 
   const handleRepetitionTaskStatusChange = (occurrence) => {
+    if(occurrence.status === false) {
+      occurrence.comment = ""
+      setSelectedTask(occurrence)
+      setShowModal(true)
+    } 
+
     const updatedTasks = taskState.map(task => ({
       ...task,
       occurrences: task.occurrences.map(o => o.date === occurrence.date ? { ...o, status: !o.status } : o)
+
     }));
     setTaskState(updatedTasks);
-  }
+  };
 
   const handleNotRepetitionTaskStatusChange = (task) => {
+    if(task.status === false) {
+      task.comment = ""
+      setSelectedTask(task)
+      setShowModal(true)
+    } 
     const updatedTasks = taskState.map(storedTask =>
         storedTask.id === task.id
-            ? { ...storedTask, status: true }
+            ? { ...storedTask, status: !task.status }
             : storedTask
+
     );
     setTaskState(updatedTasks);
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleSaveComment = (task) => {
+    if (task && task.comment !== "") { // Only set comment if it exists
+        const updatedTasks = taskState.map(task => ({
+            ...task,
+            occurrences: task.occurrences.map(o => o.date === task.date ? { ...o, comment: task.comment } : o)
+        }));
+        setTaskState(updatedTasks);
+    }
+    setShowModal(false);
+  }
+
+  const handleTaskDelete = (task) => {
+    const shouldDelete = window.confirm(
+      `Are you sure you want to delete the task "${task.taskName}"?`
+    );
+    if (shouldDelete) {
+      const updatedTasks = taskState.filter(
+        (storedTask) => storedTask.id !== task.id
+      );
+      setTaskState(updatedTasks);
+    }
+  };
+
   return (
     <>
-    {taskState && taskState.map((task) => (
-    <tr key={task.id}>
-    <td>{task.taskName}</td>     
-      {datesAndDays.map((date, dayIndex) => (
-        <td key={`${task.id}-${dayIndex}`}>
-          {task.occurrences ? task.occurrences.map((occurrence) => {
-          return (isSameDay(occurrence.date, date.date)) ? (
-              <TaskCard 
-                key={`${task.id}-${occurrence.date}`} 
-                taskName={task.taskName} 
-                data={occurrence}
-                handleTaskStatusChange={handleRepetitionTaskStatusChange}/>
+      {taskState &&
+        taskState.map((task) => (
+          <tr key={task.id}>
+            <td>
+              {task.taskName}
+              <button
+                className="delete-button"
+                title="Delete Task"
+                onClick={() => handleTaskDelete(task)}
+              >
+                <i className="fas fa-trash" aria-hidden="true"></i>
+              </button>
+            </td>
+            {datesAndDays.map((date, dayIndex) => (
+              <td key={`${task.id}-${dayIndex}`}>
+                {task.occurrences ? (
+                  task.occurrences.map((occurrence) => {
+                    return isSameDay(occurrence.date, date.date) ? (
+                      <TaskCard
+                        key={`${task.id}-${occurrence.date}`}
+                        taskName={task.taskName}
+                        data={occurrence}
+                        handleTaskStatusChange={
+                          handleRepetitionTaskStatusChange
+                        }
+                      />
+                    ) : null;
+                  })
+                ) : isSameDay(task.date, date.date) ? (
+                  <TaskCard
+                    key={`${task.id}-${date.date}`}
+                    taskName={task.taskName}
+                    data={task}
+                    handleTaskStatusChange={handleNotRepetitionTaskStatusChange}
+                  />
+                ) : null}
+              </td>
+            ))}
+          </tr>
+        ))}
+  {showModal &&
+    <CommentModal
+       show={showModal}
+       selectedTask = {selectedTask}
+       handleCloseModal={handleCloseModal}
+       handleSaveComment={handleSaveComment}
+    />
+  }
+    </>
+  );
+};
 
-          ) : null
-          }) : 
-          (isSameDay(task.date, date.date) ? (
-              <TaskCard 
-                key={`${task.id}-${date.date}`} 
-                taskName={task.taskName} 
-                data={task}
-                handleTaskStatusChange={handleNotRepetitionTaskStatusChange}/>
-          ) : null)}
-        </td>
-      ))}
-  </tr>
-  ))}
-  </>
-  )
-}
 
 export default Task;
+

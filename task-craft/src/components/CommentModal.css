@@ -1,0 +1,74 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    z-index: 0; /* Ensure overlay is on top of everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    align-items: center;
+    background-color: #aabebc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;    
+    position: relative;
+    width: 25em;
+    z-index: 1;
+  }
+
+  .modal-content * {
+    margin: 0.3em;
+  }
+
+  .modal-header {
+    color: #00473e;
+    display: flex;
+    flex-direction: row  ;
+    justify-content: space-between;
+    width: 98%;
+  }
+  
+  .close {
+    background-color: transparent;
+    border: 1px solid #00473e;
+    border-radius: 50%;
+    color: #00473e;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.3em 0.6em;
+  }
+
+  textarea {
+    border: 1px solid #00473e;
+    border-radius: 5px;
+    color: #00473e;
+    padding: 0.5em;
+    width: 90%;
+  }
+  
+  button {
+    background-color: #00473e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 0.1em;
+  }
+  
+  button:hover {
+    background-color: #00473e;
+    border: 1px solid #faae2b;
+    color: #faae2b;
+  }
+
+  .save-button {
+    margin-bottom: 1em;
+    padding: 0.5em;
+  }
+  
