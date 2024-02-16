@@ -158,7 +158,7 @@ const Header = () => {
           onClick={() => {
             alert("feature not available");
           }}
-          className="buton"
+          className="buton1"
         >
           <FontAwesomeIcon className="icon" icon={faArrowsRotate} />
         </button>
