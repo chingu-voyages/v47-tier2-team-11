@@ -4,6 +4,7 @@ import DateComponent from "./components/DateComponent";
 import Category from "./components/Category";
 import jsonData from "./assets/taskData.json";
 import "./App.css";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [data, setData] = useState(null);
@@ -42,13 +43,14 @@ const App = () => {
     const getLocalData = JSON.parse(localStorage.getItem("taskCraftData"));
     setData(getLocalData ? getLocalData : jsonData);
     // If local data is not available, save jsonData to localStorage
-    !getLocalData && localStorage.setItem("taskCraftData", JSON.stringify(jsonData));
+    !getLocalData &&
+      localStorage.setItem("taskCraftData", JSON.stringify(jsonData));
     //console.log(localStorage.getItem("userTaskData"))
   };
 
   useEffect(() => {
-    localStorage.removeItem("taskCraftData")
-    fetchDataAndSaveToLocalStorage()
+    localStorage.removeItem("taskCraftData");
+    fetchDataAndSaveToLocalStorage();
     generateDateAndDays();
   }, [data]);
 
@@ -68,6 +70,7 @@ const App = () => {
           <Category data={data} datesAndDays={datesAndDays} />
         </tbody>
       </table>
+      <Footer />
     </>
   );
 };

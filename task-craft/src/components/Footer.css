@@ -1,0 +1,40 @@
+.footer {
+    background-color: #6b6767;
+    color: #fff;
+    padding: 7px 0;
+    width: 100%;
+  }
+  
+  .githubContainer {
+    margin-bottom: 5px;
+  }
+
+  .projectLink, .githubContainer {
+    color: #fff;
+    text-decoration: none;
+  }
+  .githubContainerAshiya, .githubContainerDilip, .githubContainerDinesh, .githubContainerKen{
+    color: #fff;
+  }
+  
+  .centerContainer, .projectLinkContainer {
+    text-align: center;
+    margin-top: 5px;
+  }
+  
+  .repoLink, .chinguLink{
+    color: #fff;
+  }
+
+  .repoLink:hover,
+  .projectLink:hover,
+  .chinguLink:hover {
+    color: #131949;
+  }
+
+  .githubContainerAshiya:hover,
+.githubContainerDilip:hover,
+.githubContainerDinesh:hover,
+.githubContainerKen:hover {
+  color: #131949;
+}
