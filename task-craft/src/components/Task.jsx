@@ -93,10 +93,15 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
   };
 
   const handleTaskDelete = (task) => {
-    const updatedTasks = taskState.filter(
-      (storedTask) => storedTask.id !== task.id
+    const shouldDelete = window.confirm(
+      `Are you sure you want to delete the task "${task.taskName}"?`
     );
-    setTaskState(updatedTasks);
+    if (shouldDelete) {
+      const updatedTasks = taskState.filter(
+        (storedTask) => storedTask.id !== task.id
+      );
+      setTaskState(updatedTasks);
+    }
   };
   return (
     <>

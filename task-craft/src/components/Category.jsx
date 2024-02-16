@@ -11,25 +11,35 @@ const Category = ({ data, datesAndDays }) => {
   }, [data]);
 
   const handleCategoryDelete = (category) => {
-    const updatedCategories = categories.filter(
-      (storedCategory) => storedCategory.id !== category.id
+    const shouldDelete = window.confirm(
+      `Are you sure you want to delete the category "${category.categoryName}"?`
     );
-    setCategories(updatedCategories);
+    if (shouldDelete) {
+      const updatedCategories = categories.filter(
+        (storedCategory) => storedCategory.id !== category.id
+      );
+      setCategories(updatedCategories);
+    }
   };
 
   const handleActivityDelete = (activity) => {
-    const updatedCategories = categories.map((storedCategory) => {
-      const updatedActivities = storedCategory.activityTypes.filter(
-        (storedActivity) => storedActivity.id !== activity.id
-      );
+    const shouldDelete = window.confirm(
+      `Are you sure you want to delete the activity "${activity.activityName}"?`
+    );
+    if (shouldDelete) {
+      const updatedCategories = categories.map((storedCategory) => {
+        const updatedActivities = storedCategory.activityTypes.filter(
+          (storedActivity) => storedActivity.id !== activity.id
+        );
 
-      return {
-        ...storedCategory,
-        activityTypes: updatedActivities,
-      };
-    });
+        return {
+          ...storedCategory,
+          activityTypes: updatedActivities,
+        };
+      });
 
-    setCategories(updatedCategories);
+      setCategories(updatedCategories);
+    }
   };
 
   return (
