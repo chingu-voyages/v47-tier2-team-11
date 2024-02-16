@@ -5,6 +5,7 @@ const Activity = ({
   storedData,
   activityData,
   datesAndDays,
+  handleActivityEdit,
   handleActivityDelete,
 }) => {
   return (
@@ -21,6 +22,12 @@ const Activity = ({
             }}
           >
             {activityData.activityName}
+            <button
+              className="edit-button"
+              onClick={() => handleActivityEdit(activityData)}
+            >
+              <i class="far fa-edit"></i>
+            </button>
             <button
               className="delete-button"
               onClick={() => handleActivityDelete(activityData)}

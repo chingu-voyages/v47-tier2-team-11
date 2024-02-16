@@ -42,6 +42,48 @@ const Category = ({ data, datesAndDays }) => {
     }
   };
 
+  const handleCategoryEdit = (category) => {
+    const newName = window.prompt(
+      `Edit category name for "${category.categoryName}":`,
+      category.categoryName
+    );
+
+    if (newName !== null) {
+      const updatedCategories = categories.map((storedCategory) =>
+        storedCategory.id === category.id
+          ? { ...storedCategory, categoryName: newName }
+          : storedCategory
+      );
+
+      setCategories(updatedCategories);
+    }
+  };
+
+  const handleActivityEdit = (activity) => {
+    const newName = window.prompt(
+      `Edit activity name for "${activity.activityName}":`,
+      activity.activityName
+    );
+
+    if (newName !== null) {
+      const updatedCategories = categories.map((storedCategory) => {
+        const updatedActivities = storedCategory.activityTypes.map(
+          (storedActivity) =>
+            storedActivity.id === activity.id
+              ? { ...storedActivity, activityName: newName }
+              : storedActivity
+        );
+
+        return {
+          ...storedCategory,
+          activityTypes: updatedActivities,
+        };
+      });
+
+      setCategories(updatedCategories);
+    }
+  };
+
   return (
     <>
       {categories.map((category) => (
@@ -59,6 +101,12 @@ const Category = ({ data, datesAndDays }) => {
             >
               {category.categoryName}
               <button
+                className="edit-button"
+                onClick={() => handleCategoryEdit(category)}
+              >
+                <i class="far fa-edit"></i>
+              </button>
+              <button
                 className="delete-button"
                 onClick={() => handleCategoryDelete(category)}
               >
@@ -73,6 +121,7 @@ const Category = ({ data, datesAndDays }) => {
               activityData={activity}
               datesAndDays={datesAndDays}
               handleActivityDelete={handleActivityDelete}
+              handleActivityEdit={handleActivityEdit}
             />
           ))}
         </React.Fragment>
