@@ -26,7 +26,7 @@ const Task = ({ storedData, tasks, datesAndDays, actName, catName }) => {
   const lastDateOfMonth = lastDayOfMonth(currentDate);
   const [taskState, setTaskState] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [selectedTask, setSelectedTask] = useState(null)
+  const [selectedTask, setSelectedTask] = useState(null);
 
   useEffect(() => {
     if (tasks) {
@@ -78,31 +78,31 @@ const Task = ({ storedData, tasks, datesAndDays, actName, catName }) => {
   };
 
   const handleRepetitionTaskStatusChange = (occurrence) => {
-    if(occurrence.status === false) {
-      occurrence.comment = ""
-      setSelectedTask(occurrence)
-      setShowModal(true)
-    } 
+    if (occurrence.status === false) {
+      occurrence.comment = "";
+      setSelectedTask(occurrence);
+      setShowModal(true);
+    }
 
-    const updatedTasks = taskState.map(task => ({
+    const updatedTasks = taskState.map((task) => ({
       ...task,
-      occurrences: task.occurrences.map(o => o.date === occurrence.date ? { ...o, status: !o.status } : o)
-
+      occurrences: task.occurrences.map((o) =>
+        o.date === occurrence.date ? { ...o, status: !o.status } : o
+      ),
     }));
     setTaskState(updatedTasks);
   };
 
   const handleNotRepetitionTaskStatusChange = (task) => {
-    if(task.status === false) {
-      task.comment = ""
-      setSelectedTask(task)
-      setShowModal(true)
-    } 
-    const updatedTasks = taskState.map(storedTask =>
-        storedTask.id === task.id
-            ? { ...storedTask, status: !task.status }
-            : storedTask
-
+    if (task.status === false) {
+      task.comment = "";
+      setSelectedTask(task);
+      setShowModal(true);
+    }
+    const updatedTasks = taskState.map((storedTask) =>
+      storedTask.id === task.id
+        ? { ...storedTask, status: !task.status }
+        : storedTask
     );
     setTaskState(updatedTasks);
   };
@@ -112,15 +112,18 @@ const Task = ({ storedData, tasks, datesAndDays, actName, catName }) => {
   };
 
   const handleSaveComment = (task) => {
-    if (task && task.comment !== "") { // Only set comment if it exists
-        const updatedTasks = taskState.map(task => ({
-            ...task,
-            occurrences: task.occurrences.map(o => o.date === task.date ? { ...o, comment: task.comment } : o)
-        }));
-        setTaskState(updatedTasks);
+    if (task && task.comment !== "") {
+      // Only set comment if it exists
+      const updatedTasks = taskState.map((task) => ({
+        ...task,
+        occurrences: task.occurrences.map((o) =>
+          o.date === task.date ? { ...o, comment: task.comment } : o
+        ),
+      }));
+      setTaskState(updatedTasks);
     }
     setShowModal(false);
-  }
+  };
 
   const handleTaskDelete = (task) => {
     const shouldDelete = window.confirm(
@@ -140,7 +143,6 @@ const Task = ({ storedData, tasks, datesAndDays, actName, catName }) => {
         taskState.map((task) => (
           <tr key={task.id}>
             <td>
-              {/* {task.taskName} */}
               <TaskDetail task={task} actName={actName} catName={catName} />
               <button
                 className="delete-button"
@@ -177,18 +179,16 @@ const Task = ({ storedData, tasks, datesAndDays, actName, catName }) => {
             ))}
           </tr>
         ))}
-  {showModal &&
-    <CommentModal
-       show={showModal}
-       selectedTask = {selectedTask}
-       handleCloseModal={handleCloseModal}
-       handleSaveComment={handleSaveComment}
-    />
-  }
+      {showModal && (
+        <CommentModal
+          show={showModal}
+          selectedTask={selectedTask}
+          handleCloseModal={handleCloseModal}
+          handleSaveComment={handleSaveComment}
+        />
+      )}
     </>
   );
 };
 
-
 export default Task;
-
