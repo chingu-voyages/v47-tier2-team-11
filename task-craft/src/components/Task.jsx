@@ -17,8 +17,9 @@ import {
 } from "date-fns";
 import TaskCard from "./TaskCard";
 import "./Task.css";
+import TaskDetail from "./TaskDetail";
 
-const Task = ({ storedData, tasks, datesAndDays }) => {
+const Task = ({ storedData, tasks, datesAndDays, actName, catName }) => {
   const currentDate = new Date();
   const startDateOfMonth = startOfMonth(currentDate);
   const lastDateOfMonth = lastDayOfMonth(currentDate);
@@ -109,7 +110,8 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
         taskState.map((task) => (
           <tr key={task.id}>
             <td>
-              {task.taskName}
+              {/* {task.taskName} */}
+              <TaskDetail task={task} actName={actName} catName={catName} />
               <button
                 className="delete-button"
                 title="Delete Task"

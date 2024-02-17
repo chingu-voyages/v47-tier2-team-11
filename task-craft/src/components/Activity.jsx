@@ -7,6 +7,7 @@ const Activity = ({
   datesAndDays,
   handleActivityEdit,
   handleActivityDelete,
+  catName,
 }) => {
   return (
     <>
@@ -42,6 +43,8 @@ const Activity = ({
           storedData={storedData}
           tasks={activityData.tasks}
           datesAndDays={datesAndDays}
+          actName={activityData.activityName}
+          catName={catName}
         />
       </React.Fragment>
     </>
