@@ -16,6 +16,7 @@ import {
   addDays,
 } from "date-fns";
 import TaskCard from "./TaskCard";
+import CommentModal from "./CommentModal";
 import "./Task.css";
 
 const Task = ({ storedData, tasks, datesAndDays }) => {
@@ -23,6 +24,8 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
   const startDateOfMonth = startOfMonth(currentDate);
   const lastDateOfMonth = lastDayOfMonth(currentDate);
   const [taskState, setTaskState] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null)
 
   useEffect(() => {
     if (tasks) {
@@ -47,8 +50,6 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
           startDate = addDays(i, 1);
           date = addDays(date, 1);
         }
-        break;
-      case "monthly":
         break;
       default:
         const nextDayFunction = nextDayFunctions[occurrenceDay.toLowerCase()];
@@ -76,21 +77,49 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
   };
 
   const handleRepetitionTaskStatusChange = (occurrence) => {
-    const updatedTasks = taskState.map((task) => ({
+    if(occurrence.status === false) {
+      occurrence.comment = ""
+      setSelectedTask(occurrence)
+      setShowModal(true)
+    } 
+
+    const updatedTasks = taskState.map(task => ({
       ...task,
-      occurrences: task.occurrences.map((o) =>
-        o.date === occurrence.date ? { ...o, status: true } : o
-      ),
+      occurrences: task.occurrences.map(o => o.date === occurrence.date ? { ...o, status: !o.status } : o)
+
     }));
     setTaskState(updatedTasks);
   };
 
   const handleNotRepetitionTaskStatusChange = (task) => {
-    const updatedTasks = taskState.map((storedTask) =>
-      storedTask.id === task.id ? { ...storedTask, status: true } : storedTask
+    if(task.status === false) {
+      task.comment = ""
+      setSelectedTask(task)
+      setShowModal(true)
+    } 
+    const updatedTasks = taskState.map(storedTask =>
+        storedTask.id === task.id
+            ? { ...storedTask, status: !task.status }
+            : storedTask
+
     );
     setTaskState(updatedTasks);
   };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleSaveComment = (task) => {
+    if (task && task.comment !== "") { // Only set comment if it exists
+        const updatedTasks = taskState.map(task => ({
+            ...task,
+            occurrences: task.occurrences.map(o => o.date === task.date ? { ...o, comment: task.comment } : o)
+        }));
+        setTaskState(updatedTasks);
+    }
+    setShowModal(false);
+  }
 
   const handleTaskDelete = (task) => {
     const shouldDelete = window.confirm(
@@ -103,6 +132,7 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
       setTaskState(updatedTasks);
     }
   };
+
   return (
     <>
       {taskState &&
@@ -145,8 +175,18 @@ const Task = ({ storedData, tasks, datesAndDays }) => {
             ))}
           </tr>
         ))}
+  {showModal &&
+    <CommentModal
+       show={showModal}
+       selectedTask = {selectedTask}
+       handleCloseModal={handleCloseModal}
+       handleSaveComment={handleSaveComment}
+    />
+  }
     </>
   );
 };
 
+
 export default Task;
+
