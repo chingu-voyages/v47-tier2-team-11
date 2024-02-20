@@ -27,7 +27,7 @@ const Activity = ({
               title="Edit Activity"
               onClick={() => handleActivityEdit(activityData)}
             >
-              <i class="far fa-edit"></i>
+              <i className="far fa-edit"></i>
             </button>
             <button
               className="delete-button"
