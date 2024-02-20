@@ -1,82 +1,25 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import {
-  nextMonday,
-  nextTuesday,
-  nextWednesday,
-  nextThursday,
-  nextFriday,
-  nextSaturday,
-  nextSunday,
-  startOfDay,
-  startOfMonth,
-  lastDayOfMonth,
-  addWeeks,
-  isSameDay,
-  addDays,
-} from "date-fns";
+import { isSameDay } from "date-fns";
 import TaskCard from "./TaskCard";
 import { saveToLocalStorage } from "./TaskHandler";
 import CommentModal from "./CommentModal";
 import "./Task.css";
+import setOccurrences from "./Occurrences";
 
 const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAndDays }) => {
-  const currentDate = new Date();
-  const startDateOfMonth = startOfMonth(currentDate);
-  const lastDateOfMonth = lastDayOfMonth(currentDate);
-
   const [taskState, setTaskState] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState({})
 
   useEffect(() => {
     if (task) {
-        (task.repetition && !task.occurrences)
-          ? (task["occurrences"] = setOccurrences(task.day))
-          : task;
-        setTaskState(task);
-
+      (task.repetition && !task.occurrences)
+        ? (task["occurrences"] = setOccurrences(task.day))
+        : task;
+      setTaskState(task);
     }    
   }, []);
-
-  const setOccurrences = (occurrenceDay) => {
-    let date = currentDate;
-    let startDate = startDateOfMonth;
-    let lastDate = lastDateOfMonth;
-    let occurrences = [];
-    switch (occurrenceDay) {
-      case "daily":
-        for (let i = startDate; i <= lastDate; i = addDays(i, 1)) {
-          occurrences.push({ date: i, status: false, comment: "" });
-          startDate = addDays(i, 1);
-          date = addDays(date, 1);
-        }
-        break;
-      default:
-        const nextDayFunction = nextDayFunctions[occurrenceDay.toLowerCase()];
-
-        for (let i = startDate; i < lastDate; i = addWeeks(i, 1)) {
-          let nextTaskDate = startOfDay(nextDayFunction(i));
-          occurrences.push({ date: nextTaskDate, status: false, comment: "" });
-          startDate = nextTaskDate;
-          date = addWeeks(date, 1);
-        }
-
-        break;
-    }
-    return occurrences;
-  };
-
-  const nextDayFunctions = {
-    monday: nextMonday,
-    tuesday: nextTuesday,
-    wednesday: nextWednesday,
-    thursday: nextThursday,
-    friday: nextFriday,
-    saturday: nextSaturday,
-    sunday: nextSunday,
-  };
-
 
   const handleTaskStatusChange = (type, taskId, task) => {
     if(task.status === false) {
@@ -120,36 +63,38 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAn
   };
 
   const handleSaveComment = (type, taskId, task, comment) => {
-
-    let updatedTasks = taskState
-    switch(type) {
-      case "occurrence":
-        if (taskId === updatedTasks.id) {
-          updatedTasks = {
-            ...updatedTasks,
-            occurrences: updatedTasks.occurrences.map((o) => {
-              return o.date === task.date ? { ...o, comment: comment } : o;
-            })
+    if(comment !== "") {
+      let updatedTasks = taskState
+      switch(type) {
+        case "occurrence":
+          if (taskId === updatedTasks.id) {
+            updatedTasks = {
+              ...updatedTasks,
+              occurrences: updatedTasks.occurrences.map((o) => {
+                return o.date === task.date ? { ...o, comment: comment } : o;
+              })
+            }
           }
-        }
-      break;
+        break;
+  
+        case "task":
+          if(taskId === updatedTasks.id) {
+            updatedTasks = {
+              ...updatedTasks,
+              comment: comment
+            }          
+          }
+        break;
+  
+        default:
+          return updatedTasks;
+      }  
+       
+      setTaskState(updatedTasks);
+      saveToLocalStorage({type: "task", categoryId, activityId, taskId, updatedData: updatedTasks, storedData, handleSetData});  
 
-      case "task":
-        if(taskId === updatedTasks.id) {
-          updatedTasks = {
-            ...updatedTasks,
-            comment: comment
-          }          
-        }
-      break;
-
-      default:
-        return updatedTasks;
-    }
-
-    setShowModal(false)  
-    setTaskState(updatedTasks);
-    saveToLocalStorage({type: "task", categoryId, activityId, taskId, updatedData: updatedTasks, storedData, handleSetData});   
+    } 
+    setShowModal(false) 
     
   };
   
@@ -217,7 +162,7 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAn
         )}
   {showModal &&
     <CommentModal
-       show={showModal}
+       showModal = {showModal}
        selectedTask = {selectedTask}
        handleCloseModal={handleCloseModal}
        handleSaveComment={handleSaveComment}
@@ -229,4 +174,3 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAn
 
 
 export default Task;
-

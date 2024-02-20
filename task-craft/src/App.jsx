@@ -11,13 +11,12 @@ const App = () => {
   const [monthAndYear, setMonthAndYear] = useState("");
 
   useEffect(() => {
-    //localStorage.removeItem("taskCraftData")
+    localStorage.removeItem("taskCraftData")
     const localData = JSON.parse(localStorage.getItem("taskCraftData"));
     localData ? setData(localData) : (setData(jsonData), localStorage.setItem("taskCraftData", JSON.stringify(jsonData)));
   }, []);
 
   const handleSetData = (updatedData) => {
-    console.log("...updated data to be saved in local storage........", updatedData)
     setData(updatedData)
   }
 
@@ -49,7 +48,7 @@ const App = () => {
 
   return (
     <>
-      <Header />
+      <Header data={data}/>
       <table>
         <thead>
           <tr>

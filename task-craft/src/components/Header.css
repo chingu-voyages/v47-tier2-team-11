@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  justify-content: space-around;
+  height: 90px;
+  color: #00473e;
+  border: 1px solid black;
+  font-size: 30px;
+  align-items: center;
+}
+
+.header-logo {
+  border-radius: 50%;
+  width: 85px;
+  height: 85px;
+}
+
+.header-button {
+  background-color: #fff;
+  color: #00473e;
+}
+.icon {
+  font-size: 40px;
+}
