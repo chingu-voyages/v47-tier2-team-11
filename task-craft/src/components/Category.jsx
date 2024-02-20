@@ -105,7 +105,7 @@ const Category = ({ data, datesAndDays }) => {
                 title="Edit Category"
                 onClick={() => handleCategoryEdit(category)}
               >
-                <i class="far fa-edit"></i>
+                <i className="far fa-edit"></i>
               </button>
               <button
                 className="delete-button"
