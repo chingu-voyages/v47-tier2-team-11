@@ -12,7 +12,7 @@
                         "taskName": "Update Recipes Project Backlog",
                         "taskDescription": "",
                         "priority": "medium",
-                        "day": "monday",
+                        "day": "friday",
                         "repetition": true
                     },
                     {
@@ -20,7 +20,7 @@
                         "taskName": "Update The dailyTasks sheet with the backlog tasks",
                         "taskDescription": "add the filtering feature to Done",
                         "priority": "medium",
-                        "day": "tuesday",
+                        "day": "monday",
                         "repetition": true
                     }
                 ]
@@ -30,7 +30,7 @@
                 "activityName": "Blog Posts",
                 "tasks": [
                     {
-                        "id": 3,
+                        "id": 1,
                         "taskName": "Publish The recent Blog Post Draft to hashnode",
                         "taskDescription": "",
                         "priority": "medium",
@@ -38,7 +38,7 @@
                         "repetition": true
                     },
                     {
-                        "id": 4,
+                        "id": 2,
                         "taskName": "Write a New headline in a Blog Post Draft",
                         "taskDescription": "",
                         "priority": "high",
@@ -54,49 +54,53 @@
         "categoryName": "STUDYING",
         "activityTypes": [
             {
-                "id": 3,
+                "id": 1,
                 "activityName": "Node Js Course",
                 "tasks": [
                     {
-                        "id": 5,
+                        "id": 1,
                         "taskName": "Plan The Node Js Course Progress By Month",
                         "taskDescription": "Set Up A Plan For The Next Month Of Node Js Learning",
                         "priority": "medium",
                         "status": false,
                         "date": "2024-02-04",
+                        "comment": "",
                         "repetition": false
                     },
                     {
-                        "id": 6,
+                        "id": 2,
                         "taskName": "Study The First Node Js Lecture",
                         "taskDescription": "",
                         "priority": "medium",
                         "status": false,
                         "date": "2024-02-12",
+                        "comment": "",
                         "repetition": false
                     }
                 ]
             },
             {
-                "id": 4,
+                "id": 2,
                 "activityName": "MongoDB",
                 "tasks": [
                     {
-                        "id": 7,
+                        "id": 1,
                         "taskName": "Plan The MongoDB Course Progress By Month",
                         "taskDescription": "Set Up A Plan For The Next Month Of Node Js Learning",
                         "priority": "medium",
                         "status": false,
                         "date": "2024-02-28",
+                        "comment": "",
                         "repetition": false
                     },
                     {
-                        "id": 8,
+                        "id": 2,
                         "taskName": "Study The First MongoDB Lecture",
                         "taskDescription": "",
                         "priority": "medium",
                         "status": false,
                         "date": "2024-02-09",
+                        "comment": "",
                         "repetition": false
                     }
                 ]
@@ -108,11 +112,11 @@
         "categoryName": "DAILY TASKS PROJECT",
         "activityTypes": [
             {
-                "id": 5,
+                "id": 1,
                 "activityName": "Backlog",
                 "tasks": [
                     {
-                        "id": 9,
+                        "id": 1,
                         "taskName": "Add The New Features list",
                         "taskDescription": "",
                         "priority": "medium",
@@ -120,7 +124,7 @@
                         "repetition": true
                     },
                     {
-                        "id": 10,
+                        "id": 2,
                         "taskName": "Add The New PRs To InReview",
                         "taskDescription": "",
                         "priority": "medium",
@@ -130,11 +134,11 @@
                 ]
             },
             {
-                "id": 11,
+                "id": 2,
                 "activityName": "Coding",
                 "tasks": [
                     {
-                        "id": 11,
+                        "id": 1,
                         "taskName": "Work On The Sidebar",
                         "taskDescription": "Add The Sections Links",
                         "priority": "medium",
@@ -142,7 +146,7 @@
                         "repetition": true
                     },
                     {
-                        "id": 12,
+                        "id": 2,
                         "taskName": "Refactor The Filtering Feature Code",
                         "taskDescription": "",
                         "priority": "medium",
@@ -158,11 +162,11 @@
         "categoryName": "CHINGU",
         "activityTypes": [
             {
-                "id": 7,
+                "id": 1,
                 "activityName": "Voyage",
                 "tasks": [
                     {
-                        "id": 13,
+                        "id": 1,
                         "taskName": "Conduct The Project Planning Meeting",
                         "taskDescription": "Conduct The Project Planning Meeting To Discuss Our Ideas",
                         "priority": "medium",
@@ -170,7 +174,7 @@
                         "repetition": true
                     },
                     {
-                        "id": 14,
+                        "id": 2,
                         "taskName": "Create The UI/UX Design For The DailyTasks Project",
                         "taskDescription": "Create The UI/UX Design For The DailyTasks Project Based On The Team Discussion",
                         "priority": "medium",
@@ -180,11 +184,11 @@
                 ]
             },
             {
-                "id": 8,
+                "id": 2,
                 "activityName": "Pair Programming",
                 "tasks": [
                     {
-                        "id": 15,
+                        "id": 1,
                         "taskName": "Create When2Meet Link",
                         "taskDescription": "Create When2Meet Link To Introduce Yourselves",
                         "priority": "medium",

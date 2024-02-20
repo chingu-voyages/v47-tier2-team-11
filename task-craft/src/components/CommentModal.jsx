@@ -10,7 +10,7 @@ const CommentModal = ({ selectedTask, handleCloseModal, handleSaveComment }) => 
 
     return (
         <div className="modal-overlay"> 
-            <div show={true} onHide={handleCloseModal} className="modal-content">
+            <div show={true} className="modal-content">
                 <div className="modal-header">
                     <h3>Comment / Additional Notes :</h3>
                     <button className="close" onClick={handleCloseModal}>X</button> {/* Close button */}
@@ -22,7 +22,7 @@ const CommentModal = ({ selectedTask, handleCloseModal, handleSaveComment }) => 
                     placeholder="Write your comment here..."
                     autoFocus
                 />
-                <button className="save-button" onClick={() => handleSaveComment(selectedTask)}> {/* Corrected onClick */}
+                <button className="save-button" onClick={() => handleSaveComment(selectedTask.type, selectedTask.taskId, selectedTask.task, comment)}> {/* Corrected onClick */}
                     Save
                 </button>
             </div>
