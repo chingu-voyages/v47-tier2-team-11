@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Activity from "./Activity";
 
-const Category = ({ data, datesAndDays }) => {
+const Category = ({ data, handleSetData, datesAndDays }) => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -120,7 +120,9 @@ const Category = ({ data, datesAndDays }) => {
             <Activity
               key={activity.id}
               storedData={data}
+              handleSetData={handleSetData}
               activityData={activity}
+              categoryId={category.id}
               datesAndDays={datesAndDays}
               handleActivityDelete={handleActivityDelete}
               handleActivityEdit={handleActivityEdit}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./CommentModal.css"; // Import CSS file for styling
+import "./CommentModal.css"; 
 
-const CommentModal = ({ selectedTask, handleCloseModal, handleSaveComment }) => {
+const CommentModal = ({ showModal, selectedTask, handleCloseModal, handleSaveComment }) => {
     const [comment, setComment] = useState("")
 
     const handleChange = (event) => {
@@ -9,11 +9,11 @@ const CommentModal = ({ selectedTask, handleCloseModal, handleSaveComment }) => 
     };
 
     return (
-        <div className="modal-overlay"> 
-            <div show={true} onHide={handleCloseModal} className="modal-content">
+        <div className={`modal-overlay ${showModal ? 'show' : 'hide'}`}> 
+            <div className="modal-content">
                 <div className="modal-header">
                     <h3>Comment / Additional Notes :</h3>
-                    <button className="close" onClick={handleCloseModal}>X</button> {/* Close button */}
+                    <button className="close" onClick={handleCloseModal}>X</button> 
                 </div>
                 <textarea
                     value={comment}
@@ -22,7 +22,7 @@ const CommentModal = ({ selectedTask, handleCloseModal, handleSaveComment }) => 
                     placeholder="Write your comment here..."
                     autoFocus
                 />
-                <button className="save-button" onClick={() => handleSaveComment(selectedTask)}> {/* Corrected onClick */}
+                <button className="save-button" onClick={() => handleSaveComment(selectedTask.type, selectedTask.taskId, selectedTask.task, comment)}> {/* Corrected onClick */}
                     Save
                 </button>
             </div>

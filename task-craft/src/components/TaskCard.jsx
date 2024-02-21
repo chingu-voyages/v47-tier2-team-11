@@ -1,13 +1,13 @@
 import "./TaskCard.css"
 
-const TaskCard = ({taskName, data, handleTaskStatusChange}) => {
+const TaskCard = ({taskId, taskName, data, type, handleTaskStatusChange}) => {
     return (
         <>
         <div className="card" style={{ backgroundColor: data.status === true ? "#aabebc" : "#faae2b" }}>
             <p id="card-taskName">{taskName}</p>
             <button
                 className="card-button"
-                onClick={() => handleTaskStatusChange(data)}
+                onClick={() => handleTaskStatusChange(type, taskId, data)}
             >
                 {data.status === false ? (
                 <>
