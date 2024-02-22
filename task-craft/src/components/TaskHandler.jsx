@@ -11,7 +11,7 @@ export const saveToLocalStorage = ({ type, categoryId, activityId, taskId, updat
   switch (type) {
     case "category":
       updatedStoredData = storedData.map(category =>
-        category.id === updatedData.id ? { ...category, ...updatedData } : category
+        category.id === updatedData.id ? { ...updatedData } : category
       );
       break;
     case "activity":
@@ -40,6 +40,7 @@ export const saveToLocalStorage = ({ type, categoryId, activityId, taskId, updat
       updatedStoredData = storedData;
   }
 
+  console.log("....after deleting/ editing......", updatedStoredData)
   handleSetData(updatedStoredData);
   localStorage.setItem("taskCraftData", JSON.stringify(updatedStoredData));
 };

@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Activity from "./Activity";
+import DeleteModal from "./deleteModal";
 
 const Category = ({ data, handleSetData, datesAndDays }) => {
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null)
+  const [selectedActivity, setSelectedActivity] = useState(null)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   useEffect(() => {
     if (data) {
@@ -10,17 +14,19 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
     }
   }, [data]);
 
-  const handleCategoryDelete = (category) => {
-    const shouldDelete = window.confirm(
-      `Are you sure you want to delete the category "${category.categoryName}"?`
-    );
-    if (shouldDelete) {
-      const updatedCategories = categories.filter(
-        (storedCategory) => storedCategory.id !== category.id
-      );
-      setCategories(updatedCategories);
-    }
+  const handleShowDeleteModal = (category) => {
+    setSelectedCategory(category)
+    setShowDeleteModal(!showDeleteModal)
   };
+  
+
+  const handleCategoryDelete = () => {
+    // Filter out the selected category from the data
+    const updatedCategories = categories.filter(category => category.id !== selectedCategory.id)
+    localStorage.setItem("taskCraftData", JSON.stringify(updatedCategories));
+    handleSetData(updatedCategories)
+    setShowDeleteModal(false)
+  }
 
   const handleActivityDelete = (activity) => {
     const shouldDelete = window.confirm(
@@ -110,7 +116,7 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
               <button
                 className="delete-button"
                 title="Delete Category"
-                onClick={() => handleCategoryDelete(category)}
+                onClick={() => handleShowDeleteModal(category)}
               >
                 <i className="fas fa-trash" aria-hidden="true"></i>
               </button>
@@ -128,6 +134,13 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
               handleActivityEdit={handleActivityEdit}
             />
           ))}
+          {showDeleteModal && 
+            <DeleteModal 
+              setShowDeleteModal={setShowDeleteModal}
+              type="category"
+              name={selectedCategory.categoryName}
+              handleDelete = {handleCategoryDelete}/>
+          }
         </React.Fragment>
       ))}
     </>

@@ -67,8 +67,9 @@ const Activity = ({ storedData, handleSetData, activityData, categoryId, datesAn
         {showDeleteModal && 
           <DeleteModal 
             setShowDeleteModal={setShowDeleteModal}
-            selectedTask={selectedTask}
-            handleTaskDelete = {handleTaskDelete}/>
+            type="task"
+            name={selectedTask.taskName}
+            handleDelete = {handleTaskDelete}/>
         }
 
       </React.Fragment>
