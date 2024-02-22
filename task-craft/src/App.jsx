@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import DateComponent from "./components/DateComponent";
 import Category from "./components/Category";
+import Footer from "./components/Footer";
 import jsonData from "./assets/taskData.json";
 import "./App.css";
 
@@ -13,12 +14,15 @@ const App = () => {
   useEffect(() => {
     //localStorage.removeItem("taskCraftData")
     const localData = JSON.parse(localStorage.getItem("taskCraftData"));
-    localData ? setData(localData) : (setData(jsonData), localStorage.setItem("taskCraftData", JSON.stringify(jsonData)));
+    localData
+      ? setData(localData)
+      : (setData(jsonData),
+        localStorage.setItem("taskCraftData", JSON.stringify(jsonData)));
   }, []);
 
   const handleSetData = (updatedData) => {
-    setData(updatedData)
-  }
+    setData(updatedData);
+  };
 
   // Generate dates and days for the current month
   useEffect(() => {
@@ -36,7 +40,12 @@ const App = () => {
         weekday: "long",
       });
       const dayOfMonth = date.getDate();
-      generatedDatesAndDays.push({ date, dayOfWeek, dayOfMonth, fullDayOfWeek });
+      generatedDatesAndDays.push({
+        date,
+        dayOfWeek,
+        dayOfMonth,
+        fullDayOfWeek,
+      });
     }
     setMonthAndYear(
       `${currentDate.toLocaleString("default", {
@@ -48,7 +57,7 @@ const App = () => {
 
   return (
     <>
-      <Header data={data}/>
+      <Header data={data} />
       <table>
         <thead>
           <tr>
@@ -59,12 +68,14 @@ const App = () => {
           </tr>
         </thead>
         <tbody>
-          <Category 
-            data={data} 
+          <Category
+            data={data}
             handleSetData={handleSetData}
-            datesAndDays={datesAndDays} />
+            datesAndDays={datesAndDays}
+          />
         </tbody>
       </table>
+      <Footer />
     </>
   );
 };
