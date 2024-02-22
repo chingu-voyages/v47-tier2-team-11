@@ -7,7 +7,7 @@ import CommentModal from "./CommentModal";
 import "./Task.css";
 import setOccurrences from "./Occurrences";
 
-const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAndDays }) => {
+const Task = ({ storedData, handleSetData, categoryId, activityId, task, handleShowDeleteModal, datesAndDays }) => {
   const [taskState, setTaskState] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState({})
@@ -102,18 +102,6 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAn
     setShowModal(false);
   };
 
-  const handleTaskDelete = (task) => {
-    const shouldDelete = window.confirm(
-      `Are you sure you want to delete the task "${task.taskName}"?`
-    );
-    if (shouldDelete) {
-      const updatedTasks = taskState.filter(
-        (storedTask) => storedTask.id !== task.id
-      );
-      setTaskState(updatedTasks);
-    }
-  };
-
   return (
     <>
       {taskState &&
@@ -124,7 +112,7 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAn
               <button
                 className="delete-button"
                 title="Delete Task"
-                onClick={() => handleTaskDelete(task)}
+                onClick={() => handleShowDeleteModal(task)}
               >
                 <i className="fas fa-trash" aria-hidden="true"></i>
               </button>

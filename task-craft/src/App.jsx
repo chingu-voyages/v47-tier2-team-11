@@ -17,6 +17,7 @@ const App = () => {
   }, []);
 
   const handleSetData = (updatedData) => {
+    console.log("...in app....updated data....", updatedData)
     setData(updatedData)
   }
 

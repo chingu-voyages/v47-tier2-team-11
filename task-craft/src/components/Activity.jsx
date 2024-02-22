@@ -1,7 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import DeleteModal from "./deleteModal";
 import Task from "./Task";
+import { saveToLocalStorage } from "./TaskHandler";
 
 const Activity = ({ storedData, handleSetData, activityData, categoryId, datesAndDays, handleActivityEdit, handleActivityDelete}) => {
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [selectedTask, setSelectedTask] = useState(null)
+
+  const handleShowDeleteModal = (task) => {
+    setSelectedTask(task)
+    setShowDeleteModal(!showDeleteModal)
+  };
+
+  const handleTaskDelete = () => {
+    // Filter out the selected task from the activityData tasks
+    const updatedTasks = activityData.tasks.filter(task => task.id !== selectedTask.id)
+    // Create a new copy of activityData with updated tasks
+    saveToLocalStorage({type: "activity", categoryId, activityId: activityData.id, taskId: null, updatedData: updatedTasks, storedData, handleSetData})
+    setShowDeleteModal(false)
+  }
   
   return (
     <>
@@ -42,10 +59,18 @@ const Activity = ({ storedData, handleSetData, activityData, categoryId, datesAn
               categoryId={categoryId}
               activityId={activityData.id}
               task={task}
+              handleShowDeleteModal={handleShowDeleteModal}
               datesAndDays={datesAndDays}
             />
           )
         )}
+        {showDeleteModal && 
+          <DeleteModal 
+            setShowDeleteModal={setShowDeleteModal}
+            selectedTask={selectedTask}
+            handleTaskDelete = {handleTaskDelete}/>
+        }
+
       </React.Fragment>
     </>
   );
