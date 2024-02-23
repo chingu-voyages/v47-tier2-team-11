@@ -19,53 +19,54 @@ const TaskDetail = ({
     date: initialData.date,
   });
   const [edit, setEdit] = useState(false);
+  const [editedTaskname, setEditedTaskname] = useState(taskDetails.taskname);
+  const [editedDescription, setEditedDescription] = useState(
+    initialData.taskDescription
+  );
+  const [editedPriority, setEditedPriority] = useState(taskDetails.priority);
+  const [editedDueday, setEditedDueday] = useState(taskDetails.day);
+  const [editedDuedate, setEditedDuedate] = useState(taskDetails.date);
 
   const handleEdit = () => {
     setEdit(true);
   };
 
   const handleTaskNameChange = (e) => {
-    setTaskDetails((prevDetails) => ({
-      ...prevDetails,
-      taskname: e.target.value,
-    }));
+    setEditedTaskname(e.target.value);
   };
 
   const handleChangeDay = (e) => {
-    setTaskDetails((prevDetails) => ({
-      ...prevDetails,
-      day: e.target.value,
-    }));
+    setEditedDueday(e.target.value);
   };
 
   const handleChangeDate = (e) => {
-    setTaskDetails((prevDetails) => ({
-      ...prevDetails,
-      date: e.target.value,
-    }));
+    setEditedDuedate(e.target.value);
   };
 
   const handlePriorityChange = (e) => {
-    setTaskDetails((prevDetails) => ({
-      ...prevDetails,
-      priority: e.target.value,
-    }));
+    setEditedPriority(e.target.value);
   };
 
   const handleDescriptionChange = (e) => {
-    setTaskDetails((prevDetails) => ({
-      ...prevDetails,
-      taskdescription: e.target.value,
-    }));
+    setEditedDescription(e.target.value);
   };
 
   const handleSave = () => {
     setEdit(false);
+    setTaskDetails((prevDetails) => ({
+      ...prevDetails,
+      taskname: editedTaskname,
+      taskdescription: editedDescription,
+      priority: editedPriority,
+      day: editedDueday,
+      date: editedDuedate,
+    }));
     setModalIsOpen(false); // closing modal after saving
   };
 
   const openModal = () => {
     setModalIsOpen(true);
+    setEdit(false);
   };
 
   const closeModal = () => {
@@ -89,11 +90,19 @@ const TaskDetail = ({
           <button className="btn-close btnClose" onClick={closeModal}></button>
           <h2 className="taskDetailHeading">Task Details</h2>
 
-          <h5>Category: {category}</h5>
+          <h5>
+            Category: {category}
+            <button
+              className="editButton tasknameEditButton"
+              onClick={handleEdit}
+            >
+              <i className="fas fa-edit"></i>
+            </button>
+          </h5>
           <h5>Activity: {activity}</h5>
 
           <div className="tasknamecontainer">
-            <h3 className="taskname">
+            <h4 className="taskname">
               {edit ? (
                 <input
                   className="tasknameInputContainer"
@@ -102,17 +111,9 @@ const TaskDetail = ({
                   onBlur={handleTaskNameChange}
                 />
               ) : (
-                <>
-                  {taskDetails.taskname}
-                  <button
-                    className="editButton tasknameEditButton"
-                    onClick={handleEdit}
-                  >
-                    <i className="fas fa-edit"></i>
-                  </button>
-                </>
+                <>{taskDetails.taskname}</>
               )}
-            </h3>
+            </h4>
           </div>
           <h5>
             Description:{" "}
@@ -148,7 +149,6 @@ const TaskDetail = ({
             )}
           </h5>
           <h5 className="dueDate">
-            {/* {taskDetails.repetition ? <h5> Repeat</h5> : <h5> Non Repeat </h5>} */}
             {"Due Date:"}
             {edit ? (
               taskDetails.day ? (
@@ -181,7 +181,6 @@ const TaskDetail = ({
                 {" "}
                 {taskDetails.date}{" "}
                 {/* {taskDetails.day?.[0].toUpperCase() + taskDetails.day?.slice(1)} */}
-                {/* for date it gives NaN */}
                 {taskDetails.day}
                 {taskDetails.day === "daily" ? (
                   <span>
