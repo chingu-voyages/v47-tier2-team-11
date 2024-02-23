@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import DateComponent from "./components/DateComponent";
 import Category from "./components/Category";
+import Footer from "./components/Footer";
 import jsonData from "./assets/taskData.json";
 import "./App.css";
 
@@ -75,6 +76,7 @@ const App = () => {
           />
         </tbody>
       </table>
+      <Footer />
     </>
   );
 };
