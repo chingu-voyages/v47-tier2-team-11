@@ -39,3 +39,7 @@
   font-size: 0.8 rem;
   padding: 0.3em 0.6em;
 }
+
+.add-new-button > .icon {
+  font-size: 1rem;
+}

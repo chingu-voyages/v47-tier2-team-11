@@ -12,6 +12,55 @@ const AddTaskModal = ({ data, handleCloseModal, handleSetData }) => {
   const [taskDescription, setTaskDescription] = useState("");
   const [selectedPriority, setSelectedPriority] = useState("low");
 
+  const handleAddNewCategory = () => {
+    const newCategoryName = prompt("Enter the new category name:");
+    let maxCategoryId = 0;
+    data.forEach((category) => {
+      maxCategoryId = Math.max(maxCategoryId, category.id);
+    });
+    if (newCategoryName) {
+      const updatedDataWithNewCategory = [
+        ...data,
+        {
+          id: maxCategoryId + 1,
+          categoryName: newCategoryName,
+          activityTypes: [],
+        },
+      ];
+      handleSetData(updatedDataWithNewCategory);
+    }
+  };
+
+  const handleAddNewActivity = () => {
+    const selectedCategoryObject = data.find(
+      (category) => category.id === selectedCategory
+    );
+    let maxActivityId = 0;
+    selectedCategoryObject.activityTypes.forEach((activity) => {
+      maxActivityId = Math.max(maxActivityId, activity.id);
+    });
+    const newActivityName = prompt("Enter the new activity name:");
+    if (newActivityName && selectedCategory) {
+      const updatedDataWithNewActivity = data.map((category) => {
+        if (category.id === selectedCategory) {
+          return {
+            ...category,
+            activityTypes: [
+              ...category.activityTypes,
+              {
+                id: maxActivityId + 1,
+                activityName: newActivityName,
+                tasks: [],
+              },
+            ],
+          };
+        }
+        return category;
+      });
+      handleSetData(updatedDataWithNewActivity);
+    }
+  };
+
   const handleSaveTask = () => {
     let repetition = dueDate === "daily" || dueDate === "weekly";
     let day =
@@ -103,6 +152,13 @@ const AddTaskModal = ({ data, handleCloseModal, handleSetData }) => {
                 </option>
               ))}
             </select>
+            <button
+              title="Add New Category"
+              className="add-new-button"
+              onClick={handleAddNewCategory}
+            >
+              <i className="fas fa-plus icon"></i>
+            </button>
           </div>
           <div className="form-group">
             <label id="activityLabel">Select the Activity: </label>
@@ -127,6 +183,14 @@ const AddTaskModal = ({ data, handleCloseModal, handleSetData }) => {
                 return null;
               })}
             </select>
+            <button
+              title="Add New Activity"
+              className="add-new-button"
+              onClick={handleAddNewActivity}
+              disabled={!selectedCategory}
+            >
+              <i className="fas fa-plus icon"></i>
+            </button>
           </div>
           <div className="form-group">
             <label id="taskNameLabel">Task Name: </label>
