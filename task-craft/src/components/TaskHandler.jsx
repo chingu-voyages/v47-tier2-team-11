@@ -1,17 +1,11 @@
 export const saveToLocalStorage = ({ type, categoryId, activityId, taskId, updatedData, storedData, handleSetData }) => {
-  console.log("...in task handler...type", type)
-  console.log("...t.h....cat id....", categoryId)
-  console.log(".....t...h...act id....", activityId)
-  console.log("....t...h....taskId....", taskId)
-  console.log("...t...h.....updated data", updatedData)
-  console.log("....stored data....", storedData)
-  console.log("...t...h...hadle set data...", handleSetData)
   let updatedStoredData = [];
 
   switch (type) {
     case "category":
-      updatedStoredData = storedData.map(category =>
-        category.id === updatedData.id ? { ...updatedData } : category
+      updatedStoredData = storedData.map(category => {
+        return (category.id === categoryId ? {...category, activityTypes: updatedData} : category)
+      }
       );
       break;
     case "activity":
@@ -40,7 +34,6 @@ export const saveToLocalStorage = ({ type, categoryId, activityId, taskId, updat
       updatedStoredData = storedData;
   }
 
-  console.log("....after deleting/ editing......", updatedStoredData)
   handleSetData(updatedStoredData);
   localStorage.setItem("taskCraftData", JSON.stringify(updatedStoredData));
 };

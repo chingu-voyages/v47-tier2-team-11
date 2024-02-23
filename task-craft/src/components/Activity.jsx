@@ -3,7 +3,7 @@ import DeleteModal from "./deleteModal";
 import Task from "./Task";
 import { saveToLocalStorage } from "./TaskHandler";
 
-const Activity = ({ storedData, handleSetData, activityData, categoryId, datesAndDays, handleActivityEdit, handleActivityDelete}) => {
+const Activity = ({ storedData, handleSetData, activityData, category, datesAndDays, handleShowActivityDeleteModal, handleActivityEdit }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [selectedTask, setSelectedTask] = useState(null)
 
@@ -16,7 +16,7 @@ const Activity = ({ storedData, handleSetData, activityData, categoryId, datesAn
     // Filter out the selected task from the activityData tasks
     const updatedTasks = activityData.tasks.filter(task => task.id !== selectedTask.id)
     // Create a new copy of activityData with updated tasks
-    saveToLocalStorage({type: "activity", categoryId, activityId: activityData.id, taskId: null, updatedData: updatedTasks, storedData, handleSetData})
+    saveToLocalStorage({type: "activity", categoryId: category.id, activityId: activityData.id, updatedData: updatedTasks, storedData, handleSetData})
     setShowDeleteModal(false)
   }
   
@@ -44,7 +44,7 @@ const Activity = ({ storedData, handleSetData, activityData, categoryId, datesAn
             <button
               className="delete-button"
               title="Delete Activity"
-              onClick={() => handleActivityDelete(activityData)}
+              onClick={() => handleShowActivityDeleteModal(category, activityData)}
             >
               <i className="fas fa-trash" aria-hidden="true"></i>
             </button>
@@ -56,7 +56,7 @@ const Activity = ({ storedData, handleSetData, activityData, categoryId, datesAn
               key={task.id}
               storedData={storedData}
               handleSetData={handleSetData}
-              categoryId={categoryId}
+              categoryId={category.id}
               activityId={activityData.id}
               task={task}
               handleShowDeleteModal={handleShowDeleteModal}

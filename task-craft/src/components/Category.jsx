@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Activity from "./Activity";
 import DeleteModal from "./deleteModal";
+import { saveToLocalStorage } from "./TaskHandler";
 
 const Category = ({ data, handleSetData, datesAndDays }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedActivity, setSelectedActivity] = useState(null)
-  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [showCategoryDeleteModal, setShowCategoryDeleteModal] = useState(false)
+  const [showActivityDeleteModal, setShowActivityDeleteModal] = useState(false)
 
   useEffect(() => {
     if (data) {
@@ -16,37 +18,31 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
 
   const handleShowDeleteModal = (category) => {
     setSelectedCategory(category)
-    setShowDeleteModal(!showDeleteModal)
+    setShowCategoryDeleteModal(!showCategoryDeleteModal)
+  };
+
+  const handleShowActivityDeleteModal = (category, activity) => {
+    setSelectedCategory(category)
+    setSelectedActivity(activity)
+    setShowActivityDeleteModal(!showActivityDeleteModal)
   };
   
 
   const handleCategoryDelete = () => {
     // Filter out the selected category from the data
     const updatedCategories = categories.filter(category => category.id !== selectedCategory.id)
+    setCategories(updatedCategories)
     localStorage.setItem("taskCraftData", JSON.stringify(updatedCategories));
     handleSetData(updatedCategories)
-    setShowDeleteModal(false)
+    setShowCategoryDeleteModal(false)
   }
 
-  const handleActivityDelete = (activity) => {
-    const shouldDelete = window.confirm(
-      `Are you sure you want to delete the activity "${activity.activityName}"?`
-    );
-    if (shouldDelete) {
-      const updatedCategories = categories.map((storedCategory) => {
-        const updatedActivities = storedCategory.activityTypes.filter(
-          (storedActivity) => storedActivity.id !== activity.id
-        );
-
-        return {
-          ...storedCategory,
-          activityTypes: updatedActivities,
-        };
-      });
-
-      setCategories(updatedCategories);
-    }
-  };
+  const handleActivityDelete = () => {
+    // Filter out the selected activity from the categories
+    const updatedActivities = selectedCategory.activityTypes.filter(storedActivity => storedActivity.id !== selectedActivity.id)
+    saveToLocalStorage({type: "category", categoryId: selectedCategory.id, activityId: selectedActivity.id, updatedData: updatedActivities, storedData: data, handleSetData})
+    setShowActivityDeleteModal(false)
+  }
 
   const handleCategoryEdit = (category) => {
     const newName = window.prompt(
@@ -128,18 +124,25 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
               storedData={data}
               handleSetData={handleSetData}
               activityData={activity}
-              categoryId={category.id}
+              category={category}
               datesAndDays={datesAndDays}
-              handleActivityDelete={handleActivityDelete}
+              handleShowActivityDeleteModal={handleShowActivityDeleteModal}
               handleActivityEdit={handleActivityEdit}
             />
           ))}
-          {showDeleteModal && 
+          {showCategoryDeleteModal && 
             <DeleteModal 
-              setShowDeleteModal={setShowDeleteModal}
+              setShowDeleteModal={setShowCategoryDeleteModal}
               type="category"
               name={selectedCategory.categoryName}
               handleDelete = {handleCategoryDelete}/>
+          }
+           {showActivityDeleteModal && 
+            <DeleteModal 
+              setShowDeleteModal={setShowActivityDeleteModal}
+              type="activity"
+              name={selectedActivity.activityName}
+              handleDelete = {handleActivityDelete}/>
           }
         </React.Fragment>
       ))}
