@@ -79,7 +79,7 @@
                     }
                 ]
             },
-            {
+            { 
                 "id": 2,
                 "activityName": "MongoDB",
                 "tasks": [
