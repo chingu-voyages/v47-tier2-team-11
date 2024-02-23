@@ -103,6 +103,8 @@ const TaskDetail = ({
 
           <div className="tasknamecontainer">
             <h4 className="taskname">
+              {" "}
+              Taskname:{" "}
               {edit ? (
                 <input
                   className="tasknameInputContainer"
@@ -111,7 +113,7 @@ const TaskDetail = ({
                   onBlur={handleTaskNameChange}
                 />
               ) : (
-                <>{taskDetails.taskname}</>
+                <> {taskDetails.taskname}</>
               )}
             </h4>
           </div>
@@ -179,28 +181,20 @@ const TaskDetail = ({
             ) : (
               <>
                 {" "}
-                {taskDetails.date}{" "}
-                {/* {taskDetails.day?.[0].toUpperCase() + taskDetails.day?.slice(1)} */}
-                {taskDetails.day}
                 {taskDetails.day === "daily" ? (
                   <span>
-                    <br />
                     Repeats{" "}
                     {taskDetails.day?.[0].toUpperCase() +
                       taskDetails.day?.slice(1)}
                   </span>
                 ) : taskDetails.repetition === true ? (
                   <span>
-                    <br />
                     Repeats on{" "}
                     {taskDetails.day?.[0].toUpperCase() +
                       taskDetails.day?.slice(1)}
                   </span>
                 ) : (
-                  <span>
-                    <br />
-                    One Time Event{":  "}
-                  </span>
+                  <span>One Time Event{":  "}</span>
                 )}
               </>
             )}
@@ -231,7 +225,6 @@ const TaskDetail = ({
               </>
             )}
           </h5>
-
           {edit && (
             <button className="saveBtn" onClick={handleSave}>
               Save

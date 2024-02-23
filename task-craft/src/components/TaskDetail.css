@@ -34,6 +34,7 @@
 .tasknamecontainer {
   display: flex; /* Using flexbox layout */
   align-items: center; 
+  display: inline;
 }
 
 .tasknameEditButton {
@@ -58,12 +59,15 @@
   cursor: pointer;
 }
 
+
 .taskname{
   text-align: left;
-  text-decoration: underline;
   font-size: 20px;
 }
 
+.tasknameInputContainer{
+  width: 73%;
+}
 .btnClose {
   background-color: #00473e;
   color: #fff;
@@ -86,10 +90,14 @@
   margin-top: -25px;
 }
 
-.tasknameInputContainer{
-  width: 130%;
-  height: 3rem;
+.tasknameInputContainer {
+  float: right;
+ 
+  
 }
+
+
+
 
 .daysContainer{
   list-style-type: none;
