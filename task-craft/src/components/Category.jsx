@@ -126,6 +126,7 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
               datesAndDays={datesAndDays}
               handleActivityDelete={handleActivityDelete}
               handleActivityEdit={handleActivityEdit}
+              catName={category.categoryName}
             />
           ))}
         </React.Fragment>

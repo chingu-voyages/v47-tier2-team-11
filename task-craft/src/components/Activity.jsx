@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Task from "./Task";
 
-const Activity = ({ storedData, handleSetData, activityData, categoryId, datesAndDays, handleActivityEdit, handleActivityDelete}) => {
-  
+const Activity = ({
+  storedData,
+  handleSetData,
+  activityData,
+  categoryId,
+  datesAndDays,
+  handleActivityEdit,
+  handleActivityDelete,
+  catName,
+}) => {
   return (
     <>
       <React.Fragment key={activityData.id}>
@@ -33,19 +41,19 @@ const Activity = ({ storedData, handleSetData, activityData, categoryId, datesAn
             </button>
           </td>
         </tr>
-        {activityData.tasks.map((task) => 
-          (
-            <Task
-              key={task.id}
-              storedData={storedData}
-              handleSetData={handleSetData}
-              categoryId={categoryId}
-              activityId={activityData.id}
-              task={task}
-              datesAndDays={datesAndDays}
-            />
-          )
-        )}
+        {activityData.tasks.map((task) => (
+          <Task
+            key={task.id}
+            storedData={storedData}
+            handleSetData={handleSetData}
+            categoryId={categoryId}
+            activityId={activityData.id}
+            task={task}
+            datesAndDays={datesAndDays}
+            actName={activityData.activityName}
+            catName={catName}
+          />
+        ))}
       </React.Fragment>
     </>
   );
