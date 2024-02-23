@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Activity from "./Activity";
 import DeleteModal from "./deleteModal";
 import { saveToLocalStorage } from "./TaskHandler";
+import "./EditName.css"
 
 const Category = ({ data, handleSetData, datesAndDays }) => {
   const [categories, setCategories] = useState([]);
@@ -9,6 +10,8 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
   const [selectedActivity, setSelectedActivity] = useState(null)
   const [showCategoryDeleteModal, setShowCategoryDeleteModal] = useState(false)
   const [showActivityDeleteModal, setShowActivityDeleteModal] = useState(false)
+  const [isCategoryEditing, setIsCategoryEditing] = useState(false);
+  const [newCategoryName, setNewCategoryName] = useState("");
 
   useEffect(() => {
     if (data) {
@@ -44,48 +47,38 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
     setShowActivityDeleteModal(false)
   }
 
-  const handleCategoryEdit = (category) => {
-    const newName = window.prompt(
-      `Edit category name for "${category.categoryName}":`,
-      category.categoryName
-    );
-
-    if (newName !== "") {
-      const updatedCategories = categories.map((storedCategory) =>
-        storedCategory.id === category.id
-          ? { ...storedCategory, categoryName: newName }
-          : storedCategory
-      );
-
-      setCategories(updatedCategories);
-    }
+ 
+  const handleActivityEdit = (category, activity, newName) => {
+    if (newName.trim() === "") return; 
+    const updatedActivityTypes = category.activityTypes.map(storedActivity => {
+      if (storedActivity.id !== activity.id) return storedActivity; 
+      return { ...storedActivity, activityName: newName.charAt(0).toUpperCase() + newName.slice(1) }
+    })  
+    saveToLocalStorage({ type: "category", categoryId: category.id, updatedData: updatedActivityTypes, storedData: data, handleSetData: handleSetData });
   };
 
-  const handleActivityEdit = (activity) => {
-    const newName = window.prompt(
-      `Edit activity name for "${activity.activityName}":`,
-      activity.activityName
-    );
-
-    if (newName !== "") {
-      const updatedCategories = categories.map((storedCategory) => {
-        const updatedActivities = storedCategory.activityTypes.map(
-          (storedActivity) =>
-            storedActivity.id === activity.id
-              ? { ...storedActivity, activityName: newName }
-              : storedActivity
-        );
-
-        return {
-          ...storedCategory,
-          activityTypes: updatedActivities,
-        };
-      });
-
-      setCategories(updatedCategories);
+  const handleSaveCategoryName = (category) => {
+    if (newCategoryName.trim() !== "") {
+      handleCategoryEdit(category, newCategoryName.trim());
+      setIsCategoryEditing(false);
     }
   };
+  
+  const handleCancelEdit = () => {
+    //setNewCategoryName(category.categoryName);
+    setIsCategoryEditing(false);
+  };
 
+  const handleCategoryEdit = (category, newName) => {
+    if (newName.trim() === "") return;
+    const updatedCategory = categories.map(storedCategory => {
+      if(storedCategory.id !== category.id) return storedCategory;
+      return {...storedCategory, categoryName: newName.toUpperCase()}
+    })
+    localStorage.setItem("taskCraftData", JSON.stringify(updatedCategory));
+    handleSetData(updatedCategory)    
+  };
+    
   return (
     <>
       {categories.map((category) => (
@@ -101,14 +94,32 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
                 padding: "5px",
               }}
             >
-              {category.categoryName}
-              <button
-                className="edit-button"
-                title="Edit Category"
-                onClick={() => handleCategoryEdit(category)}
-              >
-                <i className="far fa-edit"></i>
-              </button>
+               {isCategoryEditing ? (
+              <span className="edit-name">
+                <input
+                  type="text"                  
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  readOnly={false} // Enable typing
+                />
+                <button
+                  className="close-button"
+                  style={{borderRadius: "50%", padding: "3px 5px"}}
+                  onClick={handleCancelEdit}
+                >
+                  <i className="fas fa-times"></i>
+                </button>
+              </span>
+            ) : (
+              <span>{category.categoryName}</span>
+            )}
+            <button
+              className={isCategoryEditing ? 'save-mode' : 'edit-button'}
+              title="Edit Activity"
+              onClick={isCategoryEditing ? () => handleSaveCategoryName(category) : () => setIsCategoryEditing(true)}
+            >
+              {isCategoryEditing ? "Save" : <i className="far fa-edit"></i>}
+            </button>
               <button
                 className="delete-button"
                 title="Delete Category"

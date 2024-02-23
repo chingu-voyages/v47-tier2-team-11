@@ -1,0 +1,38 @@
+.edit-name {
+    background-color: #aabebc;
+    border: none;
+    border-radius: 5px;
+    box-shadow: none;    
+    display: inline-flex;
+    padding: 0.2em;
+}
+
+.edit-name input {
+    background-color: transparent;
+    border: none;
+    color: #00473e;
+    font-weight: 600;
+}
+
+.edit-name input:focus {
+    outline: none;
+}
+
+.edit-name:hover {
+    outline: #faae2b; 
+}
+
+.save-mode {
+    background-color: #faae2b;
+    border-radius: 5px;
+    color: #00473e;
+    cursor: pointer;
+    font-weight: 600;
+    margin: 0px 5px;
+    padding: 5px;
+}
+
+.save-mode:hover {
+    background-color: #aabebc;
+    color: #00473e;
+}

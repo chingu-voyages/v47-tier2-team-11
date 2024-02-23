@@ -17,8 +17,8 @@ const App = () => {
   }, []);
 
   const handleSetData = (updatedData) => {
-    console.log("...in app....updated data....", updatedData)
     setData(updatedData)
+    localStorage.setItem("taskCraftData", JSON.stringify(updatedData));
   }
 
   // Generate dates and days for the current month

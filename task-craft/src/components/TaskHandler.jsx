@@ -35,6 +35,6 @@ export const saveToLocalStorage = ({ type, categoryId, activityId, taskId, updat
   }
 
   handleSetData(updatedStoredData);
-  localStorage.setItem("taskCraftData", JSON.stringify(updatedStoredData));
+  //localStorage.setItem("taskCraftData", JSON.stringify(updatedStoredData));
 };
 
