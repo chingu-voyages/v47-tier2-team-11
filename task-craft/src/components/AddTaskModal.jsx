@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./AddTaskModal.css";
 import setOccurrences from "./Occurrences";
 
-const AddTaskModal = ({ data, handleCloseModal }) => {
+const AddTaskModal = ({ data, handleCloseModal, handleSetData }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedActivity, setSelectedActivity] = useState("");
   const [taskName, setTaskName] = useState("");
@@ -20,19 +20,60 @@ const AddTaskModal = ({ data, handleCloseModal }) => {
         : dueDate === "weekly"
         ? selectedDayOfWeek
         : undefined;
-    const task = {
+
+    const selectedCategoryObject = data.find(
+      (category) => category.id === selectedCategory
+    );
+
+    let maxTaskId = 0;
+    let selectedActivityObject = undefined;
+
+    if (selectedCategoryObject) {
+      selectedActivityObject = selectedCategoryObject.activityTypes.find(
+        (activity) => activity.id === selectedActivity
+      );
+
+      if (selectedActivityObject && selectedActivityObject.tasks) {
+        selectedActivityObject.tasks.forEach((existingTask) => {
+          maxTaskId = Math.max(maxTaskId, existingTask.id);
+        });
+      }
+    }
+
+    const newTask = {
+      id: maxTaskId + 1,
       taskName: taskName,
       taskDescription: taskDescription,
       priority: selectedPriority,
       day: day,
       repetition: repetition,
       ...(repetition && { occurrences: setOccurrences(day) }),
-      ...(!repetition && { date: selectedDate }),
+      ...(!repetition && { date: selectedDate, status: false }),
     };
-    if ("day" in task && task.day === undefined) {
-      delete task.day;
+
+    if ("day" in newTask && newTask.day === undefined) {
+      delete newTask.day;
     }
-    console.log(task);
+    const updatedDataWithNewTask = data.map((category) => {
+      if (category.id === selectedCategory) {
+        return {
+          ...category,
+          activityTypes: category.activityTypes.map((activity) => {
+            if (activity.id === selectedActivity) {
+              return {
+                ...activity,
+                tasks: [...activity.tasks, newTask],
+              };
+            }
+            return activity;
+          }),
+        };
+      }
+      return category;
+    });
+
+    handleSetData(updatedDataWithNewTask);
+    handleCloseModal();
   };
 
   return (

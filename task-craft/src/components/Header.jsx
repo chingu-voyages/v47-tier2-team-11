@@ -3,7 +3,7 @@ import "./Header.css";
 import AddTaskModal from "./AddTaskModal";
 import { useState } from "react";
 
-const Header = ({ data }) => {
+const Header = ({ data, handleSetData }) => {
   const [showAddTaskModal, setShowAddTaskModal] = useState(false);
   const handleCloseModal = () => {
     setShowAddTaskModal(false);
@@ -21,7 +21,11 @@ const Header = ({ data }) => {
           <i className="fas fa-plus icon"></i>
         </button>
         {showAddTaskModal && (
-          <AddTaskModal handleCloseModal={handleCloseModal} data={data} />
+          <AddTaskModal
+            handleCloseModal={handleCloseModal}
+            data={data}
+            handleSetData={handleSetData}
+          />
         )}
         <button title="Reset Tasks" className="header-button">
           <i className="fas fa-recycle icon"></i>
