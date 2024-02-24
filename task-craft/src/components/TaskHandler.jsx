@@ -11,18 +11,18 @@ export const saveToLocalStorage = ({
 
   switch (type) {
     case "category":
-      updatedStoredData = storedData.map((category) =>
-        category.id === updatedData.id
-          ? { ...category, ...updatedData }
-          : category
-      );
+      updatedStoredData = storedData.map((category) => {
+        return category.id === categoryId
+          ? { ...category, activityTypes: updatedData }
+          : category;
+      });
       break;
     case "activity":
       updatedStoredData = storedData.map((category) => ({
         ...category,
         activityTypes: category.activityTypes.map((activity) =>
           activity.id === activityId
-            ? { ...activity, ...updatedData }
+            ? { ...activity, tasks: updatedData }
             : activity
         ),
       }));

@@ -58,23 +58,25 @@ const App = () => {
   return (
     <>
       <Header data={data} handleSetData={handleSetData} />
-      <table>
-        <thead>
-          <tr>
-            <DateComponent
+      <div style={{ overflowX: "auto", maxHeight: "79vh", maxWidth: "100%" }}>
+        <table>
+          <thead>
+            <tr>
+              <DateComponent
+                datesAndDays={datesAndDays}
+                monthAndYear={monthAndYear}
+              />
+            </tr>
+          </thead>
+          <tbody>
+            <Category
+              data={data}
+              handleSetData={handleSetData}
               datesAndDays={datesAndDays}
-              monthAndYear={monthAndYear}
             />
-          </tr>
-        </thead>
-        <tbody>
-          <Category
-            data={data}
-            handleSetData={handleSetData}
-            datesAndDays={datesAndDays}
-          />
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
       <Footer />
     </>
   );
