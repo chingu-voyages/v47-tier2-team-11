@@ -12,7 +12,7 @@ const App = () => {
   const [monthAndYear, setMonthAndYear] = useState("");
 
   useEffect(() => {
-    //localStorage.removeItem("taskCraftData")
+    localStorage.removeItem("taskCraftData")
     const localData = JSON.parse(localStorage.getItem("taskCraftData"));
     localData
       ? setData(localData)
@@ -24,7 +24,6 @@ const App = () => {
     setData(updatedData)
     localStorage.setItem("taskCraftData", JSON.stringify(updatedData));
   }
-
 
   // Generate dates and days for the current month
   useEffect(() => {
@@ -60,6 +59,7 @@ const App = () => {
   return (
     <>
       <Header data={data} />
+      <div style={{  overflowX: "auto", maxHeight: "500px", maxWidth: "100%" }}>
       <table>
         <thead>
           <tr>
@@ -77,6 +77,7 @@ const App = () => {
           />
         </tbody>
       </table>
+      </div>
       <Footer />
     </>
   );

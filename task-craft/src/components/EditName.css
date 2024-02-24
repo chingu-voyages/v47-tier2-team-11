@@ -47,8 +47,8 @@
     padding: 0.3em 0.6em;
   }
 
-  .close-button:hover {
-    background-color: #00473e;
-    border: 1px solid #faae2b;
-    color: #faae2b;
-  }
+.close-button:hover {
+   background-color: #00473e;
+   border: 1px solid #faae2b;
+   color: #faae2b;
+}

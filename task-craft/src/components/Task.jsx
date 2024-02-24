@@ -107,15 +107,18 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, handleS
       {taskState &&
         (
           <tr key={taskState.id}>
-            <td>
+            <td >
+              <div style={{alignItems: "center", display: "flex", justifyContent: "spaceEvenly" }}>
               {taskState.taskName}
               <button
                 className="delete-button"
+                style={{ marginLeft: "0.2em"}}
                 title="Delete Task"
                 onClick={() => handleShowDeleteModal(task)}
               >
                 <i className="fas fa-trash" aria-hidden="true"></i>
               </button>
+              </div>
             </td>
             {datesAndDays.map((date, dayIndex) => (
               <td key={`${taskState.id}-${dayIndex}`}>
