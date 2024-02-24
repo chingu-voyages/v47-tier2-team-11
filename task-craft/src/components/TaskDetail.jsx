@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./TaskDetail.css";
 import { format } from "date-fns";
 
@@ -87,10 +86,12 @@ const TaskDetail = ({
         contentLabel="Task Details"
       >
         <div>
-          <button className="btn-close btnClose" onClick={closeModal}></button>
+          <button className="btnClose" onClick={closeModal}>
+            <i className="fas fa-times"></i>
+          </button>
           <h2 className="taskDetailHeading">Task Details</h2>
 
-          <h5>
+          <h3>
             Category: {category}
             <button
               className="editButton tasknameEditButton"
@@ -98,8 +99,8 @@ const TaskDetail = ({
             >
               <i className="fas fa-edit"></i>
             </button>
-          </h5>
-          <h5>Activity: {activity}</h5>
+          </h3>
+          <h3>Activity: {activity}</h3>
 
           <div className="tasknamecontainer">
             <h4 className="taskname">
@@ -117,7 +118,7 @@ const TaskDetail = ({
               )}
             </h4>
           </div>
-          <h5>
+          <h3>
             Description:{" "}
             {edit ? (
               <input
@@ -129,8 +130,8 @@ const TaskDetail = ({
             ) : (
               <>{taskDetails.taskdescription}</>
             )}
-          </h5>
-          <h5 className="taskpriority">
+          </h3>
+          <h3 className="taskpriority">
             Priority:{" "}
             {edit ? (
               <select
@@ -149,8 +150,8 @@ const TaskDetail = ({
                   taskDetails.priority?.slice(1)}
               </>
             )}
-          </h5>
-          <h5>
+          </h3>
+          <h3>
             {"Due Date:"}
             {edit ? (
               taskDetails.day ? (
@@ -224,7 +225,7 @@ const TaskDetail = ({
                   : ""}
               </>
             )}
-          </h5>
+          </h3>
           {edit && (
             <button className="saveBtn" onClick={handleSave}>
               Save
