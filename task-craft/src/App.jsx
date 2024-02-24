@@ -10,10 +10,11 @@ const App = () => {
   const [data, setData] = useState(null);
   const [datesAndDays, setDatesAndDays] = useState([]);
   const [monthAndYear, setMonthAndYear] = useState("");
-
+  const [initialData, setInitialData] = useState(null);
+  const [resetMessage, setResetMessage] = useState("");
   useEffect(() => {
-    //localStorage.removeItem("taskCraftData")
     const localData = JSON.parse(localStorage.getItem("taskCraftData"));
+    setInitialData(localData || jsonData);
     localData
       ? setData(localData)
       : (setData(jsonData),
@@ -24,7 +25,18 @@ const App = () => {
     setData(updatedData);
     localStorage.setItem("taskCraftData", JSON.stringify(updatedData));
   };
+  const handleResetData = () => {
+    const shouldReset = window.confirm(
+      "Do you want to reset data to the start of this session?"
+    );
 
+    if (shouldReset) {
+      setData(initialData);
+      localStorage.setItem("taskCraftData", JSON.stringify(initialData));
+      setResetMessage("Data has been reset successfully!");
+      setTimeout(() => setResetMessage(""), 5000);
+    }
+  };
   // Generate dates and days for the current month
   useEffect(() => {
     const currentDate = new Date();
@@ -58,7 +70,12 @@ const App = () => {
 
   return (
     <>
-      <Header data={data} />
+      <Header
+        data={data}
+        handleSetData={handleSetData}
+        handleResetData={handleResetData}
+        resetMessage={resetMessage}
+      />
       <div style={{ overflowX: "auto", maxHeight: "79vh", maxWidth: "100%" }}>
         <table>
           <thead>
