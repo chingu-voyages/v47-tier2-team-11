@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Activity from "./Activity";
-import DeleteModal from "./deleteModal";
+import DeleteModal from "./DeleteModal";
 import { saveToLocalStorage } from "./TaskHandler";
 import "./EditName.css";
 
@@ -10,7 +10,7 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [showCategoryDeleteModal, setShowCategoryDeleteModal] = useState(false);
   const [showActivityDeleteModal, setShowActivityDeleteModal] = useState(false);
-  
+
   useEffect(() => {
     if (data) {
       setCategories(data);
@@ -29,7 +29,9 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
   };
 
   const handleCategoryDelete = () => {
-    const updatedCategories = categories.filter((category) => category.id !== selectedCategory.id);
+    const updatedCategories = categories.filter(
+      (category) => category.id !== selectedCategory.id
+    );
     setCategories(updatedCategories);
     localStorage.setItem("taskCraftData", JSON.stringify(updatedCategories));
     handleSetData(updatedCategories);
@@ -37,24 +39,42 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
   };
 
   const handleActivityDelete = () => {
-    const updatedActivities = selectedCategory.activityTypes.filter((storedActivity) => storedActivity.id !== selectedActivity.id);
-    saveToLocalStorage({ type: "category", categoryId: selectedCategory.id, activityId: selectedActivity.id, updatedData: updatedActivities, storedData: data, handleSetData });
+    const updatedActivities = selectedCategory.activityTypes.filter(
+      (storedActivity) => storedActivity.id !== selectedActivity.id
+    );
+    saveToLocalStorage({
+      type: "category",
+      categoryId: selectedCategory.id,
+      activityId: selectedActivity.id,
+      updatedData: updatedActivities,
+      storedData: data,
+      handleSetData,
+    });
     setShowActivityDeleteModal(false);
   };
 
   const handleActivityEdit = (category, activity, newName) => {
-    if (newName.trim() === "") return; 
-    const words = newName.split(' ');
-    const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
-    const newActivityName = capitalizedWords.join(' ');
-    
-    const updatedActivityTypes = category.activityTypes.map(storedActivity => {
-      if (storedActivity.id !== activity.id) return storedActivity; 
-      return { ...storedActivity, activityName: newActivityName }
-    })  
-    saveToLocalStorage({ type: "category", categoryId: category.id, updatedData: updatedActivityTypes, storedData: data, handleSetData: handleSetData });
-  };
+    if (newName.trim() === "") return;
+    const words = newName.split(" ");
+    const capitalizedWords = words.map(
+      (word) => word.charAt(0).toUpperCase() + word.slice(1)
+    );
+    const newActivityName = capitalizedWords.join(" ");
 
+    const updatedActivityTypes = category.activityTypes.map(
+      (storedActivity) => {
+        if (storedActivity.id !== activity.id) return storedActivity;
+        return { ...storedActivity, activityName: newActivityName };
+      }
+    );
+    saveToLocalStorage({
+      type: "category",
+      categoryId: category.id,
+      updatedData: updatedActivityTypes,
+      storedData: data,
+      handleSetData: handleSetData,
+    });
+  };
 
   const handleCategoryEdit = (categoryId, newName) => {
     if (newName.trim() === "") return;
@@ -68,7 +88,9 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
 
   const CategoryRow = ({ category }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [newCategoryName, setNewCategoryName] = useState(category.categoryName);
+    const [newCategoryName, setNewCategoryName] = useState(
+      category.categoryName
+    );
 
     const handleSaveCategoryName = () => {
       if (newCategoryName.trim() !== "") {
@@ -100,7 +122,7 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
                 type="text"
                 value={newCategoryName}
                 onChange={(e) => setNewCategoryName(e.target.value)}
-                readOnly={false} 
+                readOnly={false}
               />
               <button
                 className="close-button"
@@ -114,9 +136,11 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
             <span>{category.categoryName}</span>
           )}
           <button
-            className={isEditing ? 'save-mode' : 'edit-button'}
+            className={isEditing ? "save-mode" : "edit-button"}
             title="Edit Activity"
-            onClick={isEditing ? handleSaveCategoryName : () => setIsEditing(true)}
+            onClick={
+              isEditing ? handleSaveCategoryName : () => setIsEditing(true)
+            }
           >
             {isEditing ? "Save" : <i className="far fa-edit"></i>}
           </button>
@@ -151,22 +175,22 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
           ))}
         </React.Fragment>
       ))}
-      {showCategoryDeleteModal && 
-        <DeleteModal 
+      {showCategoryDeleteModal && (
+        <DeleteModal
           setShowDeleteModal={setShowCategoryDeleteModal}
           type="category"
           name={selectedCategory.categoryName}
           handleDelete={handleCategoryDelete}
         />
-      }
-      {showActivityDeleteModal && 
-        <DeleteModal 
+      )}
+      {showActivityDeleteModal && (
+        <DeleteModal
           setShowDeleteModal={setShowActivityDeleteModal}
           type="activity"
           name={selectedActivity.activityName}
           handleDelete={handleActivityDelete}
         />
-      }
+      )}
     </>
   );
 };
