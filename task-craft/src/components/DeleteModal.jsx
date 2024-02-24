@@ -1,3 +1,5 @@
+import "./DeleteModal.css"
+
 const DeleteModal = ({ setShowDeleteModal, type, name, handleDelete }) => {
     return (
         <div className="modal-overlay"> 

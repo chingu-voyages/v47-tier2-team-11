@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { isSameDay } from "date-fns";
 import TaskCard from "./TaskCard";
 import { saveToLocalStorage } from "./TaskHandler";
-import CommentModal from "./CommentModal";
+//import CommentModal from "./CommentModal";
 import "./Task.css";
 import setOccurrences from "./Occurrences";
 
@@ -62,7 +62,7 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, handleS
     
   };
 
-  const handleSaveComment = (type, taskId, task, comment) => {
+  /*const handleSaveComment = (type, taskId, task, comment) => {
     if(comment !== "") {
       let updatedTasks = taskState
       switch(type) {
@@ -96,7 +96,7 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, handleS
     } 
     setShowModal(false) 
     
-  };
+  };*/
   
   const handleCloseModal = () => {  
     setShowModal(false);
@@ -148,14 +148,14 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, handleS
             ))}
           </tr>
         )}
-  {showModal &&
+  {/*showModal &&
     <CommentModal
        showModal = {showModal}
        selectedTask = {selectedTask}
        handleCloseModal={handleCloseModal}
        handleSaveComment={handleSaveComment}
     />
-  }
+                */}
     </>
   );
 };

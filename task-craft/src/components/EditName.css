@@ -36,3 +36,19 @@
     background-color: #aabebc;
     color: #00473e;
 }
+
+.close-button {
+    background-color: transparent;
+    border: 1px solid #00473e;
+    border-radius: 50%;
+    color: #00473e;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.3em 0.6em;
+  }
+
+  .close-button:hover {
+    background-color: #00473e;
+    border: 1px solid #faae2b;
+    color: #faae2b;
+  }
