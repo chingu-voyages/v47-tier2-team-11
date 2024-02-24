@@ -21,7 +21,7 @@ const TaskDetail = ({
   const [edit, setEdit] = useState(false);
   const [editedTaskname, setEditedTaskname] = useState(taskDetails.taskname);
   const [editedDescription, setEditedDescription] = useState(
-    initialData.taskDescription
+    taskDetails.taskDescription
   );
   const [editedPriority, setEditedPriority] = useState(taskDetails.priority);
   const [editedDueday, setEditedDueday] = useState(taskDetails.day);
@@ -150,7 +150,7 @@ const TaskDetail = ({
               </>
             )}
           </h5>
-          <h5 className="dueDate">
+          <h5>
             {"Due Date:"}
             {edit ? (
               taskDetails.day ? (
@@ -203,7 +203,7 @@ const TaskDetail = ({
                 <input
                   className="inputContainer dateInput"
                   type="date"
-                  onBlur={handleChangeDate} // Update the state when the value changes
+                  onBlur={handleChangeDate} // Updating the state when the value is changed
                   defaultValue={
                     taskDetails.date
                       ? format(new Date(taskDetails.date), "yyyy-MM-dd")

@@ -9,9 +9,9 @@
   background-color: #aabebc;
   padding: 20px;
   color: black;
-  max-width: 500px;
-  width: 95%;
-  max-height: 95%;
+  max-width: 560px;
+  width: 100%;
+  max-height: 355px;
   overflow-y: auto;
   }
 
@@ -41,22 +41,6 @@
   float: right; 
   font-size: small;
   margin-left: 93px;
-}
-
-.repeatBtn {
-  float: right;
-  margin-left: 0.5rem;
-}
-
-.changeDateBtn{
-  float: right;
-  background-color: #00473e; 
-  color: #fff; 
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  cursor: pointer;
 }
 
 
@@ -92,36 +76,10 @@
 
 .tasknameInputContainer {
   float: right;
- 
-  
 }
-
-
-
 
 .daysContainer{
   list-style-type: none;
-}
-
-.occurrenceHeader{
-  margin-top: 6px;
-}
-.buttonContainer{
-  margin-bottom: 38px;
-}
-
-.formGroup {
-  padding: 0 10px; 
-  box-sizing: border-box; 
-}
-
-label {
-  display: inline-block; 
-  margin-bottom: 5px; 
-}
-
-textarea {
-  width: calc(100% - 20px);
 }
 
 .saveBtn {
@@ -152,12 +110,11 @@ textarea {
 .openModalBtn:hover {
   background-color: rgba(0, 0, 0, 0.3); /* Dimming background color */
 }
-.changeDateBtn:hover,
-.repeatBtn:hover,
+
+
 .editButton:hover,
 .saveBtn:hover{
 background-color: #072722;
-  
 }
 
 .btnClose:hover{
