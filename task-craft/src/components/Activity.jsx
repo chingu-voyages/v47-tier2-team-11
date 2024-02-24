@@ -12,6 +12,7 @@ const Activity = ({
   datesAndDays,
   handleShowActivityDeleteModal,
   handleActivityEdit,
+  catName,
 }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -116,6 +117,8 @@ const Activity = ({
             task={task}
             handleShowDeleteModal={handleShowDeleteModal}
             datesAndDays={datesAndDays}
+            actName={activityData.activityName}
+            catName={catName}
           />
         ))}
         {showDeleteModal && (

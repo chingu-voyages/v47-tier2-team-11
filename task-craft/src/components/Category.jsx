@@ -171,6 +171,7 @@ const Category = ({ data, handleSetData, datesAndDays }) => {
               datesAndDays={datesAndDays}
               handleShowActivityDeleteModal={handleShowActivityDeleteModal}
               handleActivityEdit={handleActivityEdit}
+              catName={category.categoryName}
             />
           ))}
         </React.Fragment>
