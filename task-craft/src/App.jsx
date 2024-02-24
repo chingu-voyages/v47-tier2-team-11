@@ -21,9 +21,9 @@ const App = () => {
   }, []);
 
   const handleSetData = (updatedData) => {
-    setData(updatedData)
+    setData(updatedData);
     localStorage.setItem("taskCraftData", JSON.stringify(updatedData));
-  }
+  };
 
   // Generate dates and days for the current month
   useEffect(() => {
@@ -59,24 +59,24 @@ const App = () => {
   return (
     <>
       <Header data={data} />
-      <div style={{  overflowX: "auto", maxHeight: "500px", maxWidth: "100%" }}>
-      <table>
-        <thead>
-          <tr>
-            <DateComponent
+      <div style={{ overflowX: "auto", maxHeight: "79vh", maxWidth: "100%" }}>
+        <table>
+          <thead>
+            <tr>
+              <DateComponent
+                datesAndDays={datesAndDays}
+                monthAndYear={monthAndYear}
+              />
+            </tr>
+          </thead>
+          <tbody>
+            <Category
+              data={data}
+              handleSetData={handleSetData}
               datesAndDays={datesAndDays}
-              monthAndYear={monthAndYear}
             />
-          </tr>
-        </thead>
-        <tbody>
-          <Category
-            data={data}
-            handleSetData={handleSetData}
-            datesAndDays={datesAndDays}
-          />
-        </tbody>
-      </table>
+          </tbody>
+        </table>
       </div>
       <Footer />
     </>
