@@ -12,7 +12,7 @@ const App = () => {
   const [monthAndYear, setMonthAndYear] = useState("");
 
   useEffect(() => {
-    localStorage.removeItem("taskCraftData")
+    //localStorage.removeItem("taskCraftData")
     const localData = JSON.parse(localStorage.getItem("taskCraftData"));
     localData
       ? setData(localData)
