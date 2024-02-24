@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { isSameDay } from "date-fns";
 import TaskCard from "./TaskCard";
 import { saveToLocalStorage } from "./TaskHandler";
-import CommentModal from "./CommentModal";
+//import CommentModal from "./CommentModal";
 import "./Task.css";
 import setOccurrences from "./Occurrences";
 
-const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAndDays }) => {
+const Task = ({ storedData, handleSetData, categoryId, activityId, task, handleShowDeleteModal, datesAndDays }) => {
   const [taskState, setTaskState] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState({})
@@ -62,7 +62,7 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAn
     
   };
 
-  const handleSaveComment = (type, taskId, task, comment) => {
+  /*const handleSaveComment = (type, taskId, task, comment) => {
     if(comment !== "") {
       let updatedTasks = taskState
       switch(type) {
@@ -96,22 +96,10 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAn
     } 
     setShowModal(false) 
     
-  };
+  };*/
   
   const handleCloseModal = () => {  
     setShowModal(false);
-  };
-
-  const handleTaskDelete = (task) => {
-    const shouldDelete = window.confirm(
-      `Are you sure you want to delete the task "${task.taskName}"?`
-    );
-    if (shouldDelete) {
-      const updatedTasks = taskState.filter(
-        (storedTask) => storedTask.id !== task.id
-      );
-      setTaskState(updatedTasks);
-    }
   };
 
   return (
@@ -119,15 +107,18 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAn
       {taskState &&
         (
           <tr key={taskState.id}>
-            <td>
+            <td >
+              <div style={{alignItems: "center", display: "flex", justifyContent: "spaceEvenly" }}>
               {taskState.taskName}
               <button
                 className="delete-button"
+                style={{ marginLeft: "0.2em"}}
                 title="Delete Task"
-                onClick={() => handleTaskDelete(task)}
+                onClick={() => handleShowDeleteModal(task)}
               >
                 <i className="fas fa-trash" aria-hidden="true"></i>
               </button>
+              </div>
             </td>
             {datesAndDays.map((date, dayIndex) => (
               <td key={`${taskState.id}-${dayIndex}`}>
@@ -160,14 +151,14 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAn
             ))}
           </tr>
         )}
-  {showModal &&
+  {/*showModal &&
     <CommentModal
        showModal = {showModal}
        selectedTask = {selectedTask}
        handleCloseModal={handleCloseModal}
        handleSaveComment={handleSaveComment}
     />
-  }
+                */}
     </>
   );
 };
