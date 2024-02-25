@@ -1,0 +1,6 @@
+td {
+    font-weight: 500;
+    min-width: 9em !important;
+    max-width: 10em !important;
+    padding: 0px 5px;
+}

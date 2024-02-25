@@ -1,0 +1,15 @@
+.date-component-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.date-row {
+  display: flex;
+}
+
+.date-column {
+  text-align: center;
+  margin: 3px;
+  padding: 5px;
+}

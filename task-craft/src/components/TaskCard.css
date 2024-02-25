@@ -1,0 +1,40 @@
+.card {
+    border-radius: 5px;
+    color: #00473e;
+    display: flex;
+    flex-direction: column;
+
+    margin: 0.5em auto;    
+    overflow: hidden;
+    padding: 0px;    
+    width: 90%;
+}
+
+#card-taskName {
+    font-size: medium;
+    font-weight: 500;
+    margin: 0px 5px;    
+    overflow: hidden; /* Hides any content that overflows the container */
+    padding: 1%;
+    text-overflow: ellipsis; 
+    white-space: nowrap; /* Prevents the text from wrapping */
+    width: 90%;
+}
+
+.card-button {
+  align-items: center;
+  align-self: center;
+  background-color: #00473e;
+  border: none;
+  border-radius: 5px;
+  color: #faae2b;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 3px 0px;
+  padding: 5px;    
+}
+
+.card-button i {
+  margin-right: 5px;
+}

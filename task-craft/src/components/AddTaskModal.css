@@ -1,0 +1,45 @@
+.task-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+  z-index: 1; /* Ensure overlay is on top of everything */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-modal-content {
+  align-items: center;
+  background-color: #aabebc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 25em;
+  z-index: 1;
+}
+
+.task-modal-header {
+  color: #00473e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 98%;
+}
+
+.task-modal-close {
+  background-color: transparent;
+  border: 1px solid #00473e;
+  border-radius: 50%;
+  color: #00473e;
+  cursor: pointer;
+  font-size: 0.8 rem;
+  padding: 0.3em 0.6em;
+}
+
+.add-new-button > .icon {
+  font-size: 1rem;
+}
