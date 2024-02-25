@@ -2,67 +2,91 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { isSameDay } from "date-fns";
 import TaskCard from "./TaskCard";
+import TaskDetail from "./TaskDetail";
 import { saveToLocalStorage } from "./TaskHandler";
-import CommentModal from "./CommentModal";
+//import CommentModal from "./CommentModal";
 import "./Task.css";
 import setOccurrences from "./Occurrences";
 
-const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAndDays }) => {
+const Task = ({
+  storedData,
+  handleSetData,
+  categoryId,
+  activityId,
+  task,
+  handleShowDeleteModal,
+  datesAndDays,
+  actName,
+  catName,
+}) => {
   const [taskState, setTaskState] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedTask, setSelectedTask] = useState({})
+  const [selectedTask, setSelectedTask] = useState({});
+  // const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (task) {
-      (task.repetition && !task.occurrences)
+      task.repetition && !task.occurrences
         ? (task["occurrences"] = setOccurrences(task.day))
         : task;
       setTaskState(task);
-    }    
-  }, []);
+    }
+  }, [storedData, taskState]);
+
 
   const handleTaskStatusChange = (type, taskId, task) => {
-    if(task.status === false) {
+    if (task.status === false) {
       setSelectedTask({
         type: type,
         taskId: taskId,
-        task: task
-      })
-      setShowModal(true)
+        task: task,
+      });
+      // setShowModal(true);
     }
 
-    let updatedTasks = taskState
-    switch(type) {
+    let updatedTasks = taskState;
+    switch (type) {
       case "occurrence":
         if (taskId === updatedTasks.id) {
           updatedTasks = {
             ...updatedTasks,
             occurrences: updatedTasks.occurrences.map((o) => {
               return o.date === task.date ? { ...o, status: !o.status } : o;
-            })
-          }
+            }),
+          };
         }
-      break;
+        break;
 
       case "task":
-        if(taskId === updatedTasks.id) {
+        if (taskId === updatedTasks.id) {
           updatedTasks = {
             ...updatedTasks,
-            status: !updatedTasks.status
-          }          
+            status: !updatedTasks.status,
+          };
         }
-      break;
+        break;
 
       default:
         return updatedTasks;
     }
 
     setTaskState(updatedTasks);
-    saveToLocalStorage({type: "task", categoryId, activityId, taskId, updatedData: updatedTasks, storedData, handleSetData});   
-    
+    saveToLocalStorage({
+      type: "task",
+      categoryId,
+      activityId,
+      taskId,
+      updatedData: updatedTasks,
+      storedData,
+      handleSetData,
+    });
   };
 
-  const handleSaveComment = (type, taskId, task, comment) => {
+  const saveTaskToState = (editedTask) => {
+    console.log("taskst....", editedTask)
+    setTaskState(editedTask)
+  }
+
+  /*const handleSaveComment = (type, taskId, task, comment) => {
     if(comment !== "") {
       let updatedTasks = taskState
       switch(type) {
@@ -97,80 +121,84 @@ const Task = ({ storedData, handleSetData, categoryId, activityId, task, datesAn
     setShowModal(false) 
     
   };
-  
-  const handleCloseModal = () => {  
-    setShowModal(false);
-  };
 
-  const handleTaskDelete = (task) => {
-    const shouldDelete = window.confirm(
-      `Are you sure you want to delete the task "${task.taskName}"?`
-    );
-    if (shouldDelete) {
-      const updatedTasks = taskState.filter(
-        (storedTask) => storedTask.id !== task.id
-      );
-      setTaskState(updatedTasks);
-    }
-  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };*/
 
   return (
     <>
-      {taskState &&
-        (
-          <tr key={taskState.id}>
-            <td>
-              {taskState.taskName}
+      {taskState && (
+        <tr key={taskState.id}>
+          <td>
+            <div
+              style={{
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "spaceEvenly",
+              }}
+            >
+              <TaskDetail
+                task={taskState}
+                actName={actName}
+                catName={catName}
+                categoryId={categoryId}
+                activityId={activityId}
+                taskId={taskState.id}
+                storedData={storedData}
+                saveTaskToState={saveTaskToState}
+                handleSetData={handleSetData}
+              />
               <button
                 className="delete-button"
+                style={{ marginLeft: "0.2em" }}
                 title="Delete Task"
-                onClick={() => handleTaskDelete(task)}
+                onClick={() => handleShowDeleteModal(task)}
               >
                 <i className="fas fa-trash" aria-hidden="true"></i>
               </button>
+            </div>
+          </td>
+          {datesAndDays.map((date, dayIndex) => (
+            <td key={`${taskState.id}-${dayIndex}`}>
+              {taskState.occurrences ? (
+                taskState.occurrences.map((occurrence) => {
+                  return isSameDay(occurrence.date, date.date) ? (
+                    <TaskCard
+                      key={taskState.id}
+                      task={taskState}
+                      taskId={taskState.id}
+                      taskName={taskState.taskName}
+                      data={occurrence}
+                      type="occurrence"
+                      handleTaskStatusChange={handleTaskStatusChange}
+                    />
+                  ) : null;
+                })
+              ) : isSameDay(taskState.date, date.date) ? (
+                <TaskCard
+                  key={taskState.id}
+                  taskId={taskState.id}
+                  taskName={taskState.taskName}
+                  data={taskState}
+                  type="task"
+                  handleTaskStatusChange={handleTaskStatusChange}
+                />
+              ) : null}
             </td>
-            {datesAndDays.map((date, dayIndex) => (
-              <td key={`${taskState.id}-${dayIndex}`}>
-                {taskState.occurrences ? (
-                  taskState.occurrences.map((occurrence) => {
-                    return isSameDay(occurrence.date, date.date) ? (
-                      <TaskCard
-                        key={taskState.id}
-                        taskId={taskState.id}
-                        taskName={taskState.taskName}
-                        data={occurrence}
-                        type="occurrence"
-                        handleTaskStatusChange={
-                          handleTaskStatusChange
-                        }
-                      />
-                    ) : null;
-                  })
-                ) : isSameDay(taskState.date, date.date) ? (
-                  <TaskCard
-                    key={taskState.id}
-                    taskId={taskState.id}
-                    taskName={taskState.taskName}
-                    data={taskState}
-                    type="task"
-                    handleTaskStatusChange={handleTaskStatusChange}
-                  />
-                ) : null}
-              </td>
-            ))}
-          </tr>
-        )}
-  {showModal &&
+          ))}
+        </tr>
+      )}
+      {/*showModal &&
     <CommentModal
        showModal = {showModal}
        selectedTask = {selectedTask}
        handleCloseModal={handleCloseModal}
        handleSaveComment={handleSaveComment}
     />
-  }
+                */}
     </>
   );
 };
-
 
 export default Task;

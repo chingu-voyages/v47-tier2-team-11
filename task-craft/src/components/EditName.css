@@ -1,0 +1,54 @@
+.edit-name {
+    background-color: #aabebc;
+    border: none;
+    border-radius: 5px;
+    box-shadow: none;    
+    display: inline-flex;
+    padding: 0.2em;
+}
+
+.edit-name input {
+    background-color: transparent;
+    border: none;
+    color: #00473e;
+    font-weight: 600;
+}
+
+.edit-name input:focus {
+    outline: none;
+}
+
+.edit-name:hover {
+    outline: #faae2b; 
+}
+
+.save-mode {
+    background-color: #faae2b;
+    border-radius: 5px;
+    color: #00473e;
+    cursor: pointer;
+    font-weight: 600;
+    margin: 0px 5px;
+    padding: 5px;
+}
+
+.save-mode:hover {
+    background-color: #aabebc;
+    color: #00473e;
+}
+
+.close-button {
+    background-color: transparent;
+    border: 1px solid #00473e;
+    border-radius: 50%;
+    color: #00473e;
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0.3em 0.6em;
+  }
+
+.close-button:hover {
+   background-color: #00473e;
+   border: 1px solid #faae2b;
+   color: #faae2b;
+}

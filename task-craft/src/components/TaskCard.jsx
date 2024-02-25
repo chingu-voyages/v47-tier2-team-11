@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import "./TaskCard.css"
 
-const TaskCard = ({taskId, taskName, data, type, handleTaskStatusChange}) => {
+const TaskCard = ({task, taskId, taskName, data, type, handleTaskStatusChange}) => {
+    useEffect(() => {},[task])
     return (
         <>
         <div className="card" style={{ backgroundColor: data.status === true ? "#aabebc" : "#faae2b" }}>

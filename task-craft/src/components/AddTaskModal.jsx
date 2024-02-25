@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "./AddTaskModal.css";
+import AddCategoryModal from "./AddCategoryModal";
+import AddActivityModal from "./AddActivityModal";
 import setOccurrences from "./Occurrences";
 
-const AddTaskModal = ({ data, handleCloseModal }) => {
+const AddTaskModal = ({ data, handleCloseModal, handleSetData }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedActivity, setSelectedActivity] = useState("");
   const [taskName, setTaskName] = useState("");
@@ -11,6 +13,55 @@ const AddTaskModal = ({ data, handleCloseModal }) => {
   const [selectedDate, setSelectedDate] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [selectedPriority, setSelectedPriority] = useState("low");
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [showActivityModal, setShowActivityModal] = useState(false);
+
+  const handleAddNewCategory = (newCategoryName) => {
+    let maxCategoryId = 0;
+    data.forEach((category) => {
+      maxCategoryId = Math.max(maxCategoryId, category.id);
+    });
+
+    const updatedDataWithNewCategory = [
+      ...data,
+      {
+        id: maxCategoryId + 1,
+        categoryName: newCategoryName,
+        activityTypes: [],
+      },
+    ];
+
+    handleSetData(updatedDataWithNewCategory);
+  };
+
+  const handleAddNewActivity = (newActivityName) => {
+    const selectedCategoryObject = data.find(
+      (category) => category.id === selectedCategory
+    );
+    let maxActivityId = 0;
+    selectedCategoryObject.activityTypes.forEach((activity) => {
+      maxActivityId = Math.max(maxActivityId, activity.id);
+    });
+
+    const updatedDataWithNewActivity = data.map((category) => {
+      if (category.id === selectedCategory) {
+        return {
+          ...category,
+          activityTypes: [
+            ...category.activityTypes,
+            {
+              id: maxActivityId + 1,
+              activityName: newActivityName,
+              tasks: [],
+            },
+          ],
+        };
+      }
+      return category;
+    });
+
+    handleSetData(updatedDataWithNewActivity);
+  };
 
   const handleSaveTask = () => {
     let repetition = dueDate === "daily" || dueDate === "weekly";
@@ -20,19 +71,60 @@ const AddTaskModal = ({ data, handleCloseModal }) => {
         : dueDate === "weekly"
         ? selectedDayOfWeek
         : undefined;
-    const task = {
+
+    const selectedCategoryObject = data.find(
+      (category) => category.id === selectedCategory
+    );
+
+    let maxTaskId = 0;
+    let selectedActivityObject = undefined;
+
+    if (selectedCategoryObject) {
+      selectedActivityObject = selectedCategoryObject.activityTypes.find(
+        (activity) => activity.id === selectedActivity
+      );
+
+      if (selectedActivityObject && selectedActivityObject.tasks) {
+        selectedActivityObject.tasks.forEach((existingTask) => {
+          maxTaskId = Math.max(maxTaskId, existingTask.id);
+        });
+      }
+    }
+
+    const newTask = {
+      id: maxTaskId + 1,
       taskName: taskName,
       taskDescription: taskDescription,
       priority: selectedPriority,
       day: day,
       repetition: repetition,
       ...(repetition && { occurrences: setOccurrences(day) }),
-      ...(!repetition && { date: selectedDate }),
+      ...(!repetition && { date: selectedDate, status: false }),
     };
-    if ("day" in task && task.day === undefined) {
-      delete task.day;
+
+    if ("day" in newTask && newTask.day === undefined) {
+      delete newTask.day;
     }
-    console.log(task);
+    const updatedDataWithNewTask = data.map((category) => {
+      if (category.id === selectedCategory) {
+        return {
+          ...category,
+          activityTypes: category.activityTypes.map((activity) => {
+            if (activity.id === selectedActivity) {
+              return {
+                ...activity,
+                tasks: [...activity.tasks, newTask],
+              };
+            }
+            return activity;
+          }),
+        };
+      }
+      return category;
+    });
+
+    handleSetData(updatedDataWithNewTask);
+    handleCloseModal();
   };
 
   return (
@@ -62,6 +154,19 @@ const AddTaskModal = ({ data, handleCloseModal }) => {
                 </option>
               ))}
             </select>
+            <button
+              title="Add New Category"
+              className="add-new-button"
+              onClick={() => setShowCategoryModal(true)}
+            >
+              <i className="fas fa-plus icon"></i>
+            </button>
+            {showCategoryModal && (
+              <AddCategoryModal
+                setShowModal={setShowCategoryModal}
+                handleAddNewCategory={handleAddNewCategory}
+              />
+            )}
           </div>
           <div className="form-group">
             <label id="activityLabel">Select the Activity: </label>
@@ -86,6 +191,20 @@ const AddTaskModal = ({ data, handleCloseModal }) => {
                 return null;
               })}
             </select>
+            <button
+              title="Add New Activity"
+              className="add-new-button"
+              onClick={() => setShowActivityModal(true)}
+              disabled={!selectedCategory}
+            >
+              <i className="fas fa-plus icon"></i>
+            </button>
+            {showActivityModal && (
+              <AddActivityModal
+                setShowModal={setShowActivityModal}
+                handleAddNewActivity={handleAddNewActivity}
+              />
+            )}
           </div>
           <div className="form-group">
             <label id="taskNameLabel">Task Name: </label>
