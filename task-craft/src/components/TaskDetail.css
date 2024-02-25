@@ -1,3 +1,42 @@
+.task-detail-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* Ensure modal is on top */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-detail-modal-content {
+  background-color: #aabebc;
+  border-radius: 5px;
+  color: #00473e;
+  padding: 1em;
+  max-width: 80%; /* Adjust width as needed */
+  max-height: 80%; /* Adjust height as needed */
+  overflow-y: auto; /* Enable scrolling if content exceeds max height */
+}
+
+.task-detail-modal-header {
+  display: flex;
+  justify-content: space-between;
+}  
+
+#detail-modal-title {
+  font-weight: 800;
+  margin: 0.3em 10em;
+}
+
+.btnClose:hover{
+  background-color: #00473e;
+  color: #faae2b;
+  border: 1px solid #faae2b;
+}
+  
   .TaskDetailModalStyles{
   position: absolute;
   top: 50%;
@@ -27,8 +66,10 @@
   padding: 0.2em;
 }
 
-.openModalBtn:focus {
+.openModalBtn:hover {
   background-color: #aabebc;
+  border: 1px solid #00473e;
+  color: #00473e;
 }
 
 .taskDetailHeading{
@@ -45,7 +86,7 @@
 }
 
 .categoryContainer,.activityContainer,.taskname,.descriptionContainer, .priorityContainer,.duedateContainer{
-  font-size: 24px;
+  font-size: 1em;
 }
 
 .tasknameEditButton {
@@ -56,28 +97,22 @@
 
 
 .taskname{
-  text-align: left;
-  
+  text-align: left;  
 }
 
 .tasknameInputContainer {
+  border-radius: 5px;
   float: right;
-  font-size: 17px;
-  margin-top: 6px;
   width: 73%;
 }
 
 .btnClose {
-  background-color: #00473e;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 100%;
+  background-color: transparent;
+  border: 1px solid #00473e;
+  border-radius: 50%;
+  color: #00473e;
   cursor: pointer;
-  width: 36px;
-  height: 32px;
-  float: right; 
-  margin-top: 9px; 
+  padding: 0em 1em;
 }
 
 .inputContainer{
@@ -89,49 +124,53 @@
   margin-top: -25px;
 }
 
-
-
 .daysContainer{
   list-style-type: none;
 }
 
 .saveBtn {
+  padding: 0.5em;
+  font-weight: 900;
+  font-size: 1rem;
   background-color: #00473e;
   color: #fff;
+  cursor: pointer;
   border: none;
-  width: 66%; 
-  border-radius: 7px;
+  border-radius: 5px;
   display: block; 
   margin: 0 auto;
-  height: 27px;
+}
+
+.saveBtn:hover {
+  background-color: #00473e;
+  border: 1px solid #faae2b;
+  color: #faae2b;
 }
 
 .editButton{
   background: #00473e;
+  cursor: pointer;
   float: right;
   font-size: 17px;
   border-radius: 4px;
   border: none;
-  color: #fff;
+  color: #faae2b;
   margin-top: 6.5px;
 }
 
 .inputDescriptionContainer{
-  margin-top: 8px;
+  border-radius: 5px;
   float: right;
   width: 73%;
-  font-size: 17px;
 }
 
 .inputPriorityContainer{
-  margin-top: 8px;
+  border-radius: 5px;
   float: right;
   width: 37%;
-  font-size: 17px;
 }
 
 .editingDuedateContainer {
-  font-size: 21px;
  /* Align items vertically */
  display: flex;
  flex-direction: column;
@@ -147,35 +186,31 @@
 }
 
 .inputWeeklyContainer{
+  border-radius: 5px;
   font-size: 18px;
-  float: right;
+  margin-left: 1em;
   width: 37%;
 }
+
 .inputOneTimeContainer{
+  border-radius: 5px;
   font-size: 18px;
-  float: right;
+  margin-left: 1em;
   width: 37%;
 }
+
 .saveButtonContainer{
 margin-top: 14px;
 margin-bottom: 4px;
 
 }
 
-.saveBtn{
-  color: #fff;
-  font-size: 20px;
-}
 .openModalBtn:hover {
   background-color: rgba(0, 0, 0, 0.3); /* Dimming background color */
 }
-
 
 .editButton:hover,
 .saveBtn:hover{
 background-color: #072722;
 }
 
-.btnClose:hover{
-  background-color: rgb(248, 13, 13);
-}

@@ -30,7 +30,7 @@ const Task = ({
         : task;
       setTaskState(task);
     }
-  }, [storedData, taskState]);
+  }, [task]);
 
 
   const handleTaskStatusChange = (type, taskId, task) => {
@@ -82,7 +82,6 @@ const Task = ({
   };
 
   const saveTaskToState = (editedTask) => {
-    console.log("taskst....", editedTask)
     setTaskState(editedTask)
   }
 
