@@ -13,6 +13,7 @@ const TaskDetail = ({
   activityId,
   taskId,
   storedData,
+  saveTaskToState,
   handleSetData,
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -95,6 +96,7 @@ const TaskDetail = ({
     };
 
     setTaskDetails(updatedTaskDetails);
+    saveTaskToState(updatedTaskDetails)
 
     saveToLocalStorage({
       type: "task",
@@ -278,7 +280,7 @@ const TaskDetail = ({
                   </span>
                 ) : (
                   <span>
-                    On{":  "} {taskDetails.date}
+                    On{" "} {taskDetails.date}
                   </span>
                 )}
               </>
