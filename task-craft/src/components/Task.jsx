@@ -20,8 +20,8 @@ const Task = ({
   catName,
 }) => {
   const [taskState, setTaskState] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState({});
+  // const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (task) {
@@ -30,7 +30,7 @@ const Task = ({
         : task;
       setTaskState(task);
     }
-  }, []);
+  }, [task]);
 
   const handleTaskStatusChange = (type, taskId, task) => {
     if (task.status === false) {
@@ -39,7 +39,7 @@ const Task = ({
         taskId: taskId,
         task: task,
       });
-      setShowModal(true);
+      // setShowModal(true);
     }
 
     let updatedTasks = taskState;
@@ -114,11 +114,11 @@ const Task = ({
     } 
     setShowModal(false) 
     
-  };*/
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
-  };
+  };*/
 
   return (
     <>
