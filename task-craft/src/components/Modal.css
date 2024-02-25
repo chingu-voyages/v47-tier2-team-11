@@ -27,6 +27,7 @@
 }
 
 .save-button,
+.reset-button,
 .cancel-button {
   background-color: #00473e;
   color: white;

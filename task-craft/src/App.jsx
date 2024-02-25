@@ -27,16 +27,10 @@ const App = () => {
     localStorage.setItem("taskCraftData", JSON.stringify(updatedData));
   };
   const handleResetData = () => {
-    const shouldReset = window.confirm(
-      "Do you want to reset data to the start of this session?"
-    );
-
-    if (shouldReset) {
-      setData(initialData);
-      localStorage.setItem("taskCraftData", JSON.stringify(initialData));
-      setResetMessage("Data has been reset successfully!");
-      setTimeout(() => setResetMessage(""), 5000);
-    }
+    setData(initialData);
+    localStorage.setItem("taskCraftData", JSON.stringify(initialData));
+    setResetMessage("Data has been reset successfully!");
+    setTimeout(() => setResetMessage(""), 5000);
   };
   // Generate dates and days for the current month
   useEffect(() => {
