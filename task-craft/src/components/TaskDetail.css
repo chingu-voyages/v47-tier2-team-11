@@ -21,9 +21,14 @@
   border: none; 
   outline: none; 
   cursor: pointer; 
-  padding: 10px 20px; 
   font-size: inherit;
   text-decoration: none; 
+  text-align: left;
+  padding: 0.2em;
+}
+
+.openModalBtn:focus {
+  background-color: #aabebc;
 }
 
 .taskDetailHeading{
