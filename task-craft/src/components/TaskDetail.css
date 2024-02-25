@@ -29,6 +29,8 @@
 
 .openModalBtn:focus {
   background-color: #aabebc;
+  border: 1px solid #00473e;
+  color: #00473e;
 }
 
 .taskDetailHeading{
