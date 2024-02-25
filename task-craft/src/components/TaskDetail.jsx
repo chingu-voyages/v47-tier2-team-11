@@ -136,7 +136,7 @@ const TaskDetail = ({
           </button>
           <h2 className="taskDetailHeading">Task Details</h2>
 
-          <h3>
+          <div className="categoryContainer">
             Category: {category}
             <button
               className="editButton tasknameEditButton"
@@ -144,11 +144,11 @@ const TaskDetail = ({
             >
               <i className="fas fa-edit"></i>
             </button>
-          </h3>
-          <h3>Activity: {activity}</h3>
+          </div>
+          <div className="activityContainer">Activity: {activity}</div>
 
           <div className="tasknamecontainer">
-            <h4 className="taskname">
+            <div className="taskname">
               {" "}
               Taskname:{" "}
               {edit ? (
@@ -161,9 +161,9 @@ const TaskDetail = ({
               ) : (
                 <> {taskDetails.taskName}</>
               )}
-            </h4>
+            </div>
           </div>
-          <h3>
+          <div className="descriptionContainer">
             Description:{" "}
             {edit ? (
               <input
@@ -175,12 +175,12 @@ const TaskDetail = ({
             ) : (
               <>{taskDetails.taskDescription}</>
             )}
-          </h3>
-          <h3 className="taskpriority">
+          </div>
+          <div className="taskpriority priorityContainer">
             Priority:{" "}
             {edit ? (
               <select
-                className="inputContainer"
+                className="inputPriorityContainer"
                 defaultValue={taskDetails.priority}
                 onBlur={handlePriorityChange}
               >
@@ -195,40 +195,49 @@ const TaskDetail = ({
                   taskDetails.priority?.slice(1)}
               </>
             )}
-          </h3>
-          <h3>
+          </div>
+          <div className="duedateContainer">
             {"Due Date:"}
             {edit ? (
-              <div>
-                <input
-                  type="radio"
-                  id="daily"
-                  name="dueDate"
-                  value="daily"
-                  checked={dueDateType === "daily"}
-                  onChange={() => handleDueDateTypeChange("daily")}
-                />
-                <label htmlFor="daily">Daily</label>
-                <input
-                  type="radio"
-                  id="weekly"
-                  name="dueDate"
-                  value="weekly"
-                  checked={dueDateType === "weekly"}
-                  onChange={() => handleDueDateTypeChange("weekly")}
-                />
-                <label htmlFor="weekly">Weekly</label>
-                <input
-                  type="radio"
-                  id="onetime"
-                  name="dueDate"
-                  value="onetime"
-                  checked={dueDateType === "onetime"}
-                  onChange={() => handleDueDateTypeChange("onetime")}
-                />
-                <label htmlFor="onetime">One-time</label>
+              <div className="editingDuedateContainer">
+                <div>
+                  <input
+                    type="radio"
+                    id="daily"
+                    // className="dailyRadio"
+                    name="dueDate"
+                    value="daily"
+                    checked={dueDateType === "daily"}
+                    onChange={() => handleDueDateTypeChange("daily")}
+                  />
+                  <label htmlFor="daily">Daily</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="weekly"
+                    name="dueDate"
+                    value="weekly"
+                    checked={dueDateType === "weekly"}
+                    onChange={() => handleDueDateTypeChange("weekly")}
+                  />
+                  <label htmlFor="weekly">Weekly</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="onetime"
+                    className="onetimeRadio"
+                    name="dueDate"
+                    value="onetime"
+                    checked={dueDateType === "onetime"}
+                    onChange={() => handleDueDateTypeChange("onetime")}
+                  />
+                  <label htmlFor="onetime">One-time</label>
+                </div>
                 {dueDateType === "onetime" && (
                   <input
+                    className="inputOneTimeContainer"
                     type="date"
                     value={editedDuedate || format(new Date(), "yyyy-MM-dd")}
                     onChange={handleChangeDate}
@@ -236,6 +245,7 @@ const TaskDetail = ({
                 )}
                 {dueDateType === "weekly" && (
                   <select
+                    className="inputWeeklyContainer"
                     value={editedDueday}
                     onChange={handleChangeDay}
                     onBlur={handleChangeDay}
@@ -273,12 +283,14 @@ const TaskDetail = ({
                 )}
               </>
             )}
-          </h3>
-          {edit && (
-            <button className="saveBtn" onClick={handleSave}>
-              Save
-            </button>
-          )}
+          </div>
+          <div className="saveButtonContainer">
+            {edit && (
+              <button className="saveBtn" onClick={handleSave}>
+                Save
+              </button>
+            )}
+          </div>
         </div>
       </Modal>
     </>
