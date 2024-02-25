@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./AddTaskModal.css";
+import AddCategoryModal from "./AddCategoryModal";
 import setOccurrences from "./Occurrences";
 
 const AddTaskModal = ({ data, handleCloseModal, handleSetData }) => {
@@ -11,24 +12,24 @@ const AddTaskModal = ({ data, handleCloseModal, handleSetData }) => {
   const [selectedDate, setSelectedDate] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [selectedPriority, setSelectedPriority] = useState("low");
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
 
-  const handleAddNewCategory = () => {
-    const newCategoryName = prompt("Enter the new category name:");
+  const handleAddNewCategory = (newCategoryName) => {
     let maxCategoryId = 0;
     data.forEach((category) => {
       maxCategoryId = Math.max(maxCategoryId, category.id);
     });
-    if (newCategoryName) {
-      const updatedDataWithNewCategory = [
-        ...data,
-        {
-          id: maxCategoryId + 1,
-          categoryName: newCategoryName,
-          activityTypes: [],
-        },
-      ];
-      handleSetData(updatedDataWithNewCategory);
-    }
+
+    const updatedDataWithNewCategory = [
+      ...data,
+      {
+        id: maxCategoryId + 1,
+        categoryName: newCategoryName,
+        activityTypes: [],
+      },
+    ];
+
+    handleSetData(updatedDataWithNewCategory);
   };
 
   const handleAddNewActivity = () => {
@@ -155,10 +156,16 @@ const AddTaskModal = ({ data, handleCloseModal, handleSetData }) => {
             <button
               title="Add New Category"
               className="add-new-button"
-              onClick={handleAddNewCategory}
+              onClick={() => setShowCategoryModal(true)}
             >
               <i className="fas fa-plus icon"></i>
             </button>
+            {showCategoryModal && (
+              <AddCategoryModal
+                setShowModal={setShowCategoryModal}
+                handleAddNewCategory={handleAddNewCategory}
+              />
+            )}
           </div>
           <div className="form-group">
             <label id="activityLabel">Select the Activity: </label>
