@@ -30,7 +30,7 @@ const Task = ({
         : task;
       setTaskState(task);
     }
-  }, []);
+  }, [storedData]);
 
   const handleTaskStatusChange = (type, taskId, task) => {
     if (task.status === false) {
@@ -136,6 +136,11 @@ const Task = ({
                 task={taskState}
                 actName={actName}
                 catName={catName}
+                categoryId={categoryId}
+                activityId={activityId}
+                taskId={taskState.id}
+                storedData={storedData}
+                handleSetData={handleSetData}
               />
               <button
                 className="delete-button"
