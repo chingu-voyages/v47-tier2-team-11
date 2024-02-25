@@ -30,7 +30,8 @@ const Task = ({
         : task;
       setTaskState(task);
     }
-  }, [task]);
+  }, [storedData, taskState]);
+
 
   const handleTaskStatusChange = (type, taskId, task) => {
     if (task.status === false) {
@@ -79,6 +80,11 @@ const Task = ({
       handleSetData,
     });
   };
+
+  const saveTaskToState = (editedTask) => {
+    console.log("taskst....", editedTask)
+    setTaskState(editedTask)
+  }
 
   /*const handleSaveComment = (type, taskId, task, comment) => {
     if(comment !== "") {
@@ -136,6 +142,12 @@ const Task = ({
                 task={taskState}
                 actName={actName}
                 catName={catName}
+                categoryId={categoryId}
+                activityId={activityId}
+                taskId={taskState.id}
+                storedData={storedData}
+                saveTaskToState={saveTaskToState}
+                handleSetData={handleSetData}
               />
               <button
                 className="delete-button"
@@ -154,6 +166,7 @@ const Task = ({
                   return isSameDay(occurrence.date, date.date) ? (
                     <TaskCard
                       key={taskState.id}
+                      task={taskState}
                       taskId={taskState.id}
                       taskName={taskState.taskName}
                       data={occurrence}

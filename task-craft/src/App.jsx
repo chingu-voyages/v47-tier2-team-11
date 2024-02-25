@@ -14,6 +14,7 @@ const App = () => {
   const [initialData, setInitialData] = useState(null);
   const [resetMessage, setResetMessage] = useState("");
   useEffect(() => {
+    //localStorage.removeItem("taskCraftData")
     const localData = JSON.parse(localStorage.getItem("taskCraftData"));
     setInitialData(localData || jsonData);
     localData

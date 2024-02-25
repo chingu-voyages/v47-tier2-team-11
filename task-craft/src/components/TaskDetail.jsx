@@ -1,30 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "./TaskDetail.css";
+import { saveToLocalStorage } from "./TaskHandler";
+import setOccurrences from "./Occurrences";
 import { format } from "date-fns";
 
 const TaskDetail = ({
   task: initialData,
   catName: category,
   actName: activity,
+  categoryId,
+  activityId,
+  taskId,
+  storedData,
+  saveTaskToState,
+  handleSetData,
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [taskDetails, setTaskDetails] = useState({
-    taskname: initialData.taskName,
-    taskdescription: initialData.taskDescription,
+    taskName: initialData.taskName,
+    taskDescription: initialData.taskDescription,
     priority: initialData.priority,
     repetition: initialData.repetition,
     day: initialData.day,
     date: initialData.date,
   });
   const [edit, setEdit] = useState(false);
-  const [editedTaskname, setEditedTaskname] = useState(taskDetails.taskname);
+  const [editedTaskname, setEditedTaskname] = useState(taskDetails.taskName);
   const [editedDescription, setEditedDescription] = useState(
     taskDetails.taskDescription
   );
   const [editedPriority, setEditedPriority] = useState(taskDetails.priority);
   const [editedDueday, setEditedDueday] = useState(taskDetails.day);
   const [editedDuedate, setEditedDuedate] = useState(taskDetails.date);
+  const [dueDateType, setDueDateType] = useState(
+    taskDetails.date ? "onetime" : taskDetails.day || "daily"
+  );
+
+  useEffect(() => {
+    setEditedDueday(initialData.day);
+    setEditedDuedate(initialData.date);
+  }, [initialData]);
 
   const handleEdit = () => {
     setEdit(true);
@@ -50,17 +66,48 @@ const TaskDetail = ({
     setEditedDescription(e.target.value);
   };
 
+  const handleDueDateTypeChange = (type) => {
+    setDueDateType(type);
+  };
+
   const handleSave = () => {
     setEdit(false);
-    setTaskDetails((prevDetails) => ({
-      ...prevDetails,
-      taskname: editedTaskname,
-      taskdescription: editedDescription,
+
+    let repetition = dueDateType === "daily" || dueDateType === "weekly";
+    let day =
+      dueDateType === "daily"
+        ? "daily"
+        : dueDateType === "weekly"
+        ? editedDueday
+        : undefined;
+
+    const updatedTaskDetails = {
+      ...taskDetails,
+      taskName: editedTaskname,
+      taskDescription: editedDescription,
       priority: editedPriority,
-      day: editedDueday,
-      date: editedDuedate,
-    }));
-    setModalIsOpen(false); // closing modal after saving
+      day: day,
+      repetition: repetition,
+      ...(repetition && { occurrences: setOccurrences(day) }),
+      ...(!repetition && {
+        date: editedDuedate || format(new Date(), "yyyy-MM-dd"),
+        status: false,
+      }),
+    };
+
+    setTaskDetails(updatedTaskDetails);
+    saveTaskToState(updatedTaskDetails)
+
+    saveToLocalStorage({
+      type: "task",
+      categoryId,
+      activityId,
+      taskId,
+      updatedData: updatedTaskDetails,
+      storedData,
+      handleSetData,
+    });
+    setModalIsOpen(false);
   };
 
   const openModal = () => {
@@ -75,7 +122,7 @@ const TaskDetail = ({
   return (
     <>
       <button className="openModalBtn" onClick={openModal}>
-        {taskDetails.taskname}
+        {taskDetails.taskName}
       </button>
 
       <Modal
@@ -91,7 +138,7 @@ const TaskDetail = ({
           </button>
           <h2 className="taskDetailHeading">Task Details</h2>
 
-          <h3>
+          <div className="categoryContainer">
             Category: {category}
             <button
               className="editButton tasknameEditButton"
@@ -99,43 +146,43 @@ const TaskDetail = ({
             >
               <i className="fas fa-edit"></i>
             </button>
-          </h3>
-          <h3>Activity: {activity}</h3>
+          </div>
+          <div className="activityContainer">Activity: {activity}</div>
 
           <div className="tasknamecontainer">
-            <h4 className="taskname">
+            <div className="taskname">
               {" "}
               Taskname:{" "}
               {edit ? (
                 <input
                   className="tasknameInputContainer"
                   type="text"
-                  defaultValue={taskDetails.taskname}
+                  defaultValue={taskDetails.taskName}
                   onBlur={handleTaskNameChange}
                 />
               ) : (
-                <> {taskDetails.taskname}</>
+                <> {taskDetails.taskName}</>
               )}
-            </h4>
+            </div>
           </div>
-          <h3>
+          <div className="descriptionContainer">
             Description:{" "}
             {edit ? (
               <input
                 type="text"
                 className="inputDescriptionContainer"
-                defaultValue={taskDetails.taskdescription}
+                defaultValue={taskDetails.taskDescription}
                 onBlur={handleDescriptionChange}
               />
             ) : (
-              <>{taskDetails.taskdescription}</>
+              <>{taskDetails.taskDescription}</>
             )}
-          </h3>
-          <h3 className="taskpriority">
+          </div>
+          <div className="taskpriority priorityContainer">
             Priority:{" "}
             {edit ? (
               <select
-                className="inputContainer"
+                className="inputPriorityContainer"
                 defaultValue={taskDetails.priority}
                 onBlur={handlePriorityChange}
               >
@@ -150,35 +197,72 @@ const TaskDetail = ({
                   taskDetails.priority?.slice(1)}
               </>
             )}
-          </h3>
-          <h3>
+          </div>
+          <div className="duedateContainer">
             {"Due Date:"}
             {edit ? (
-              taskDetails.day ? (
-                <select
-                  className="inputContainer"
-                  defaultValue={taskDetails.day}
-                  onBlur={handleChangeDay}
-                >
-                  <option value="default"> --select day-- </option>
-                  <option value="monday">Monday</option>
-                  <option value="tuesday">Tuesday</option>
-                  <option value="wednesday">Wednesday</option>
-                  <option value="thursday">Thursday</option>
-                  <option value="friday">Friday</option>
-                  <option value="saturday">Saturday</option>
-                  <option value="sunday">Sunday</option>
-                </select>
-              ) : (
-                <>
-                  {taskDetails.day}
-                  {taskDetails.date && taskDetails.repetition === false
-                    ? format(new Date(taskDetails.date), "yyyy-MM-dd")
-                    : ""}
-
-                  <br />
-                </>
-              )
+              <div className="editingDuedateContainer">
+                <div>
+                  <input
+                    type="radio"
+                    id="daily"
+                    // className="dailyRadio"
+                    name="dueDate"
+                    value="daily"
+                    checked={dueDateType === "daily"}
+                    onChange={() => handleDueDateTypeChange("daily")}
+                  />
+                  <label htmlFor="daily">Daily</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="weekly"
+                    name="dueDate"
+                    value="weekly"
+                    checked={dueDateType === "weekly"}
+                    onChange={() => handleDueDateTypeChange("weekly")}
+                  />
+                  <label htmlFor="weekly">Weekly</label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="onetime"
+                    className="onetimeRadio"
+                    name="dueDate"
+                    value="onetime"
+                    checked={dueDateType === "onetime"}
+                    onChange={() => handleDueDateTypeChange("onetime")}
+                  />
+                  <label htmlFor="onetime">One-time</label>
+                </div>
+                {dueDateType === "onetime" && (
+                  <input
+                    className="inputOneTimeContainer"
+                    type="date"
+                    value={editedDuedate || format(new Date(), "yyyy-MM-dd")}
+                    onChange={handleChangeDate}
+                  />
+                )}
+                {dueDateType === "weekly" && (
+                  <select
+                    className="inputWeeklyContainer"
+                    value={editedDueday}
+                    onChange={handleChangeDay}
+                    onBlur={handleChangeDay}
+                  >
+                    <option value="">Select Day</option>
+                    <option value="monday">Monday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
+                    <option value="sunday">Sunday</option>
+                  </select>
+                )}
+              </div>
             ) : (
               <>
                 {" "}
@@ -195,42 +279,20 @@ const TaskDetail = ({
                       taskDetails.day?.slice(1)}
                   </span>
                 ) : (
-                  <span>One Time Event{":  "}</span>
+                  <span>
+                    On{" "} {taskDetails.date}
+                  </span>
                 )}
               </>
             )}
-            {edit ? (
-              taskDetails.date ? (
-                <input
-                  className="inputContainer dateInput"
-                  type="date"
-                  onBlur={handleChangeDate} // Updating the state when the value is changed
-                  defaultValue={
-                    taskDetails.date
-                      ? format(new Date(taskDetails.date), "yyyy-MM-dd")
-                      : ""
-                  }
-                />
-              ) : (
-                <>
-                  {taskDetails.date
-                    ? format(new Date(taskDetails.date), "yyyy-MM-dd")
-                    : ""}
-                </>
-              )
-            ) : (
-              <>
-                {taskDetails.date
-                  ? format(new Date(taskDetails.date), "yyyy-MM-dd")
-                  : ""}
-              </>
+          </div>
+          <div className="saveButtonContainer">
+            {edit && (
+              <button className="saveBtn" onClick={handleSave}>
+                Save
+              </button>
             )}
-          </h3>
-          {edit && (
-            <button className="saveBtn" onClick={handleSave}>
-              Save
-            </button>
-          )}
+          </div>
         </div>
       </Modal>
     </>
