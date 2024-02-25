@@ -13,7 +13,7 @@ const TaskDetail = ({
   activityId,
   taskId,
   storedData,
-  handleSetData
+  handleSetData,
 }) => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [taskDetails, setTaskDetails] = useState({
@@ -88,9 +88,12 @@ const TaskDetail = ({
       day: day,
       repetition: repetition,
       ...(repetition && { occurrences: setOccurrences(day) }),
-      ...(!repetition && { date: editedDuedate || format(new Date(), "yyyy-MM-dd"), status: false }),
+      ...(!repetition && {
+        date: editedDuedate || format(new Date(), "yyyy-MM-dd"),
+        status: false,
+      }),
     };
-      
+
     setTaskDetails(updatedTaskDetails);
 
     saveToLocalStorage({
@@ -264,7 +267,9 @@ const TaskDetail = ({
                       taskDetails.day?.slice(1)}
                   </span>
                 ) : (
-                  <span>On{":  "}</span>
+                  <span>
+                    On{":  "} {taskDetails.date}
+                  </span>
                 )}
               </>
             )}
