@@ -5,6 +5,7 @@ import Category from "./components/Category";
 import Footer from "./components/Footer";
 import jsonData from "./assets/taskData.json";
 import "./App.css";
+import "./components/Modal.css";
 
 const App = () => {
   const [data, setData] = useState(null);
